@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebCapacitacionSacdeYluz.Data.Models
 {
-    internal class DwdTienda
+    public class DwdTienda
     {
         public int Id { get; set; }
         public string Nombre { get; set; }

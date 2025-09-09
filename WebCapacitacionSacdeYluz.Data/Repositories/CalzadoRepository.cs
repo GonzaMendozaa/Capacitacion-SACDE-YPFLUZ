@@ -21,7 +21,6 @@ namespace WebCapacitacionSacdeYluz.Data.Repositories
         public List<DwdCalzado> GetAllCalzados()
         {
             return _context.DwdCalzado
-                .Include(p => p.Proveedor)
                 .Include(m => m.Marca)
                 .ToList();
         }

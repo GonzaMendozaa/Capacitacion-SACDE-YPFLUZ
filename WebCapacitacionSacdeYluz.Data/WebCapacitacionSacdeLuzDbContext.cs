@@ -21,6 +21,15 @@ namespace WebCapacitacionSacdeYluz.Data
         public virtual DbSet<DwdCalzado> DwdCalzado { get; set; }
         public virtual DbSet<DwdProveedor> DwdProveedor { get; set; }
 
+        public virtual DbSet<DwdTienda> DwdTienda { get; set; }
+        public virtual DbSet<DwdVendedor> DwdVendedor { get; set; }
+        public virtual DbSet<DwfCompra> DwfCompra { get; set; }
+        public virtual DbSet<DwfCompraXCalzado> DwfCompraXCalzado { get; set; }
+        public virtual DbSet<DwfTiendaXCalzado> DwfTiendaXCalzado { get; set; }
+        public virtual DbSet<DwfVentas> DwfVentas { get; set; }
+        public virtual DbSet<DwfVentasXCalzado> DwfVentasXCalzados { get; set; }
+
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

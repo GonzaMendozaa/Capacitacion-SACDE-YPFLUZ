@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebCapacitacionSacdeYluz.Data.Models
 {
-    internal class DwfTiendaXCalzado
+    public class DwfTiendaXCalzado
     {
         public int Id { get; set; }
         public int Stock { get; set; }

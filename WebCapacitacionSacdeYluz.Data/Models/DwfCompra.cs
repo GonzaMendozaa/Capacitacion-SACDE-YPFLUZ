@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebCapacitacionSacdeYluz.Data.Models
 {
-    internal class DwfCompra
+    public class DwfCompra
     {
         public int ID { get; set; }
         public DateTime FechaCompra { get; set; }
