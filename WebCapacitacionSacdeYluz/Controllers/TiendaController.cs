@@ -4,34 +4,33 @@ using WebCapacitacionSacdeYluz.Data.Models;
 
 namespace WebCapacitacionSacdeYluz.Controllers
 {
-    public class CalzadosController : Controller
+    public class TiendaController : Controller
     {
-        public readonly ICalzadoService _calzadoService;
-        public CalzadosController(ICalzadoService calzadoService)
+        public readonly ITiendaService _tiendaService;
+        public TiendaController(ITiendaService tiendaService)
         {
-            _calzadoService = calzadoService;
+            _tiendaService = tiendaService;
         }
-        
+
         [Route("[controller]")]
 
         #region GET
         [HttpGet("Index")]
         public IActionResult Index()
         {
-            var calzados = _calzadoService.GetAllCalzados();
-            return View(calzados);
+            var tienda = _tiendaService.GetAllTiendas();
+            return View(tienda);
         }
 
         #endregion
 
         #region Post
-        [HttpPost("/Calzados/Create")]
-        public IActionResult Create([FromBody] DwdCalzado calzado)
+        [HttpPost("/Tienda/Create")]
+        public IActionResult Create([FromBody] DwdTienda tienda)
         {
             try
             {
-                calzado.MarcaId = 1; //hardcodeado para que funcione
-                return Ok(_calzadoService.CrearCalzado(calzado));
+                return Ok(_tiendaService.CrearTienda(tienda));
             }
             catch (Exception ex)
             {
@@ -42,13 +41,13 @@ namespace WebCapacitacionSacdeYluz.Controllers
         #endregion
 
         #region Put
-        [HttpPost("/Calzados/Update")]
-        public IActionResult Update([FromBody] DwdCalzado calzado)
+        [HttpPost("/Tienda/Update")]
+        public IActionResult Update([FromBody] DwdTienda tienda)
         {
             try
             {
-                calzado.MarcaId = 1; //hardcodeado para que funcione
-                return Ok(_calzadoService.UpdateCalzado(calzado));
+               
+                return Ok(_tiendaService.UpdateTienda(tienda));
             }
             catch (Exception ex)
             {
@@ -60,13 +59,13 @@ namespace WebCapacitacionSacdeYluz.Controllers
         #endregion
 
         #region Delete
-        [HttpPost("/Calzados/Delete")]
-        public IActionResult Delete([FromBody]int idCalzado)
+        [HttpPost("/Tienda/Delete")]
+        public IActionResult Delete([FromBody] int idTienda)
         {
             try
             {
-                _calzadoService.DeleteCalzado(idCalzado);
-                return Ok(idCalzado);
+                _tiendaService.DeleteTienda(idTienda);
+                return Ok(idTienda);
             }
             catch (Exception ex)
             {

@@ -1,0 +1,117 @@
+﻿@model IEnumerable<WebCapacitacionSacdeYluz.Data.Models.DwdTienda>
+
+<link href="~/libs/select2/select2.min.css" rel="stylesheet" type="text/css" />
+<link href="~/css/tables-btn/index.css" rel="stylesheet" type="text/css" />
+
+<div class="container mt-4">
+    <h2>Gestor de Tiendas</h2>
+
+    <button type="button" class="btn btn-success mb-3" id="buttonCreate-Tienda">
+        Crear Tienda
+    </button>
+
+    <table id="datatable-tienda" class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Provincia</th>
+                <th>Direccion</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Nombre</td>
+                    <td>@item.Provincia</td>
+                    <td>@item.Direccion</td>
+                    <td style="white-space: nowrap;">
+                        <button type="button"
+                                class="btn btn-danger btn-sm delete"
+                                id="delete-@item.Id"
+                                style="padding: 2px 6px;">
+                            Eliminar
+                        </button>
+                        <button type="button"
+                                class="btn btn-warning btn-sm edit"
+                                id="edit-@item.Id"
+                                style="padding: 2px 6px;">
+                            Editar
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal Crear/Editar -->
+<form id="form-calzado">
+    <div class="modal fade" id="modalScrollable-calzado" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalScrollableTitle-tienda"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" readonly id="id-tienda" class="form-control mb-2" />
+
+                    <div>
+                        <label>Nombre</label>
+                        <input id="tienda-nombre" class="form-control mb-2" placeholder="Nombre" />
+                        <div id="tienda-nombre-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
+                    </div>
+
+                    <div>
+                        <label>Direccion</label>
+                        <input id="tienda-direccion" type="number" class="form-control mb-2" placeholder="Direccion" />
+                        <div id="tienda-direccion-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
+                    </div>
+
+                    <div>
+                        <label>Provincia</label>
+                        <input id="tienda-provincia" type="number" class="form-control mb-2" placeholder="Provincia" />
+                        <div id="tienda-provincia-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" id="buttonSave-tienda" class="btn btn-primary">Guardar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</form>
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+
+    <!-- JS DataTables -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+    <!-- Si usás exportar a Excel/PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Datatable init js -->
+    <script src="~/js/pages/Calzado/datatables.init.js"></script>
+    <script src="~/js/pages/Calzado/Index.js"></script>
+    <script src="~/libs/select2/select2.min.js"></script>
+}
