@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ICalzadoRepository, CalzadoRepository>();
 builder.Services.AddScoped<IProveedorRepository, ProveedorRepository>();
-
+//Hola key
 builder.Services.AddScoped<ICalzadoService, CalzadoService>();
 builder.Services.AddScoped<IProveedorService, ProveedorService>();
 
