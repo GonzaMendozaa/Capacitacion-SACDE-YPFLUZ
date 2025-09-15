@@ -72,8 +72,9 @@ public class MarcaRepository : IMarcaRepository
 
     public List<DwdMarca> GetAllMarcas()
     {
-        return _context.DwdMarca
+        var marcas = _context.DwdMarca
                 .ToList();
+        return marcas;
     }
     #endregion
 }

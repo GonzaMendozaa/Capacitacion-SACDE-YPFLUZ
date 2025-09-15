@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebCapacitacionSacdeYluz.Data;
 
@@ -11,9 +12,11 @@ using WebCapacitacionSacdeYluz.Data;
 namespace WebCapacitacionSacdeYluz.Data.Migrations
 {
     [DbContext(typeof(WebCapacitacionSacdeLuzDbContext))]
-    partial class WebCapacitacionSacdeLuzDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250915180628_migration20250915")]
+    partial class migration20250915
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
