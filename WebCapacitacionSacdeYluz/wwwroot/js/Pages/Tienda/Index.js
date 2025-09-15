@@ -1,48 +1,39 @@
 ﻿var isCreating = false;
 $(document).ready(function () {
-    $('#datatable-calzados').DataTable();
+    $('#datatable-tienda').DataTable();
 });
 
-function loadMainData() {
-    //cargamos los proveedores
-    $('#datalistProveedor').empty()
-    getProveedores();
-}
-
-loadMainData();
 
 // Abrir modal Crear
-$('#buttonCreate-calzado').click(function () {
+$('#buttonCreate-tienda').click(function () {
     limpiarAdvertencias();
     isCreating = true;
-    //vaciar imputs
-    $('#id-calzado').val('');
-    $('#calzado-modelo').val('');
-    $('#calzado-talle').val('');
-    $('#datalistProveedor-calzado').val('');
-    $('#calzado-precio').val('');
-    $('.modal-title').text('Crear Calzado');
-    $('#modalScrollable-calzado').modal('show');
+    $('#id-tienda').val('');
+    $('#tienda-nombre').val('');
+    $('#tienda-provincia').val('');
+    $('#tienda-direccion').val('');
+    $('.modal-title').text('Crear tienda');
+    $('#modalScrollable-tienda').modal('show');
 });
 
+
 // Submit Crear/Editar
-$('#form-calzado').submit(function (event) {
+$('#form-tienda').submit(function (event) {
     event.preventDefault();
     mostrarSpinner();
 
     if (validar_Submit()) {
-        var calzado = {
-            Id: isCreating ? 0 : $('#id-calzado').val(),
-            Modelo: $('#calzado-modelo').val(),
-            Talle: $('#calzado-talle').val(),
-            ProveedorId: parseInt($('#datalistProveedor-calzado').val()),
-            Precio: $('#calzado-precio').val()
+        var tienda = {
+            Id: isCreating ? 0 : $('#id-tienda').val(),
+            Nombre: $('#tienda-nombre').val(),
+            Provincia: $('#tienda-provincia').val(),
+            Direccion: $('#tienda-direccion').val()
         };
 
         if (isCreating) {
-            createCalzado(calzado);
+            createTienda(tienda);
         } else {
-            updateCalzado(calzado);
+            updateTienda(tienda);
         }
     } else {
         ocultarSpinner();
@@ -52,119 +43,91 @@ $('#form-calzado').submit(function (event) {
 
 
 //editar
-$('#datatable-calzados tbody').on('click', '.edit', function (e) {
-    isCreatingCalzado = false;
+$('#datatable-tienda tbody').on('click', '.edit', function (e) {
+    isCreating = false;
     var element = e.currentTarget.parentElement.parentElement;
-    var table = $('#datatable-calzados').DataTable();
-    var calzado = table.row(element).data();
-    var idCalzado = calzado[0];
+    var table = $('#datatable-tienda').DataTable();
+    var tienda = table.row(element).data();
+    var idTienda = tienda[0];
 
-    var proveedor = proveedorList.find(item => item.descripcion === calzado[3]);
-
-    $('#modalScrollable-calzado .modal-title').text("Editar Calzado");
+    $('#modalScrollable-tienda .modal-title').text("Editar tienda");
     //se llenan con los datos de la vista anterior
-    $('#id-calzado').val(calzado[0]);
-    $('#calzado-modelo').val(calzado[1]);
-    $('#calzado-talle').val(calzado[2]);
-    $('#datalistProveedor-calzado').val(proveedor?.id ?? "");
-    $('#calzado-precio').val(calzado[4]);
+    $('#id-tienda').val(tienda[0]);
+    $('#tienda-nombre').val(tienda[1]);
+    $('#tienda-provincia').val(tienda[2]);
+    $('#tienda-direccion').val(tienda[3]);
 
-    $('#modalScrollable-calzado').modal('show');
+    var modalEl = document.getElementById('modalScrollable-tienda');
+    var bsModal = new bootstrap.Modal(modalEl);
+    bsModal.show();
 });
 
-// eliminar
-$('#datatable-calzados tbody').on('click', '.delete', (e) => {
-    isCreatingCalzado = false;
-    var element = e.currentTarget.parentElement.parentElement;
-    var table = $('#datatable-calzados').DataTable();
-    var calzado = table.row(element).data();
-    var idCalzado = calzado[0];
+//eliminar
+$('#datatable-tienda tbody').on('click', '.delete', function (e) {
+    var table = $('#datatable-tienda').DataTable();
+    var $tr = $(this).closest('tr');
+    var tienda = table.row($tr).data();
 
+    if (!tienda) {
+        console.error("Fila no encontrada");
+        return;
+    }
+
+    var idTienda = tienda[0];
 
     Swal.fire({
-        title: '¿Estás seguro/a?',
-        text: "Esta acción no podrá ser revertida. Esta asignación será eliminada.",
+        title: '¿Estás seguro?',
+        text: "Esta acción no se puede deshacer",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, eliminar'
-
+        confirmButtonText: 'Sí, eliminar'
     }).then((result) => {
         if (result.isConfirmed) {
-            mostrarSpinner();
-            $.ajax({
-                type: "POST",
-                url: 'Calzados/Delete',
-                data: JSON.stringify(idCalzado),
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function () {
-                    ocultarSpinner();
-
-                    Swal.fire(
-                        'Eliminado!',
-                        'La asignacion fue eliminada con éxito!',
-                        'success'
-                    )
-
-                    table
-                        .row(element)
-                        .remove()
-                        .draw();
-                },
-                error: function () {
-                    ocultarSpinner();
-                    Swal.fire(
-                        'Error!',
-                        'Ha ocurrido un error',
-                        'error'
-                    )
-                }
-            });
+            eliminarTienda(idTienda);
         }
     });
-})
-// AJAX Crear
-function createCalzado(calzado) {
+});
+
+//AJAX crear
+function createTienda(tienda) {
     $.ajax({
         type: "POST",
-        url: '/Calzados/Create',
-        data: JSON.stringify(calzado),
+        url: '/Tienda/Create',
+        data: JSON.stringify(tienda),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (created) {
             ocultarSpinner();
 
-            var table = $('#datatable-calzados').DataTable();
+            var table = $('#datatable-tienda').DataTable();
 
 
             var buttonDelete = $("<button>", {
                 type: 'button',
                 class: 'btn btn-danger btn-sm delete',
-                id: 'delete-' + created.id,
+                id: 'delete-' + created.Id,
                 style: 'padding: 2px 6px;',
                 text: 'Eliminar'
             });
+
             var buttonEdit = $("<button>", {
                 type: 'button',
                 class: 'btn btn-warning btn-sm edit',
-                id: 'edit-' + created.id,
+                id: 'edit-' + created.Id,
                 style: 'padding: 2px 6px;',
                 text: 'Editar'
             });
 
             table.row.add([
                 created.id,
-                created.modelo,
-                created.talle,
-                proveedorList.find((item) => item.id === parseInt(calzado.ProveedorId)).descripcion,
-                created.precio,
-                buttonDelete.prop('outerHTML') + " " + buttonEdit.prop('outerHTML') // ambos botones en la misma celda
+                created.nombre,
+                created.provincia,
+                created.direccion,
+                buttonDelete.prop('outerHTML') + " " + buttonEdit.prop('outerHTML')
             ]).draw(false);
 
-            Swal.fire('Creado!', 'Calzado creado con éxito!', 'success');
-            $('#modalScrollable-calzado').modal('hide');
+            Swal.fire('Creado!', 'Tienda creada con éxito!', 'success');
+            $('#modalTienda').modal('hide');
         },
         error: function () {
             ocultarSpinner();
@@ -173,54 +136,32 @@ function createCalzado(calzado) {
     });
 }
 
-// AJAX Update
-function updateCalzado(calzado) {
+//AJAX update
+function updateTienda(tienda) {
     $.ajax({
         type: "POST",
-        url: '/Calzados/Update',
-        data: JSON.stringify(calzado),
+        url: '/Tienda/Update',
+        data: JSON.stringify(tienda),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (updated) {
             ocultarSpinner();
 
-            var buttonDelete = $("<button>", {
-                type: 'button',
-                class: 'btn btn-danger btn-sm delete',
-                id: 'delete-' + updated.id,
-                style: 'padding: 2px 6px;',
-                text: 'Eliminar'
-            });
-            var buttonEdit = $("<button>", {
-                type: 'button',
-                class: 'btn btn-warning btn-sm edit',
-                id: 'edit-' + updated.id,
-                style: 'padding: 2px 6px;',
-                text: 'Editar'
-            });
+            var table = $('#datatable-tienda').DataTable();
 
-            var table = $('#datatable-calzados').DataTable();
-            var row = table.row(function (idx, data, node) {
-                return data[0] == updated.id;
-            });
+            var $row = $('#edit-' + updated.id).closest('tr');
 
-            if (row.node()) {
-                // Actualizamos los valores de esa fila
-                row.data([
-                    updated.id,
-                    updated.modelo,
-                    updated.talle,
-                    proveedorList.find((item) => item.id === parseInt(calzado.ProveedorId)).descripcion,
-                    updated.precio,
-                    buttonDelete.prop('outerHTML') + " " + buttonEdit.prop('outerHTML') // ambos botones en la misma celda
-                ]).draw(false);
+            var rowData = table.row($row).data();
 
-            }
-              
+            rowData[1] = updated.nombre;
+            rowData[2] = updated.provincia;
+            rowData[3] = updated.direccion;
 
-            Swal.fire('Actualizado!', 'Calzado actualizado con éxito!', 'success');
+            table.row($row).data(rowData).draw(false);
 
-            $('#modalScrollable-calzado').modal('hide');
+            Swal.fire('Actualizado!', 'Tienda actualizado con éxito!', 'success');
+
+            $('#modalTienda').modal('hide');
         },
         error: function () {
             ocultarSpinner();
@@ -229,45 +170,126 @@ function updateCalzado(calzado) {
     });
 }
 
-// Helpers
+function eliminarTienda(id) {
+    mostrarSpinner();
 
-async function getProveedores() {
-    return $.ajax({
-        type: "GET",
-        url: 'Proveedor/GetAllProveedores',
+    $.ajax({
+        type: "POST",
+        url: '/Tienda/Delete?idTienda=' + id, //antes pasaba aca que al poner solo /Tienda/Delete tiraba error NOTION
+        data: JSON.stringify(id),
         dataType: "json",
-        success: function (data) {
-            proveedorList = data;
-            var datalistProveedor = $('#datalistProveedor-calzado');
+        contentType: "application/json; charset=utf-8",
+        success: function (resultado) {
+            ocultarSpinner();
 
-            datalistProveedor.append('<option value="" data-value="">Seleccione un Proveedor</option>');
+            var table = $('#datatable-tienda').DataTable();
 
-            proveedorList.forEach(el => {
-                var option = `<option value="${el.id}">${el.descripcion}</option>`;
-                $('#datalistProveedor-calzado').append(option);
+            table.rows().every(function () {
+                var data = this.data();
+
+                if (data[0] == id) {
+                    this.remove();
+                }
             });
+
+            table.draw(false);
+
+            Swal.fire('Eliminado!', 'Tienda eliminado con éxito!', 'success');
+
         },
-        error: function (data) {
-            console.log(data)
+        error: function () {
+            ocultarSpinner();
+            Swal.fire('Error!', 'No se pudo eliminar', 'error');
         }
     });
 }
 
+function verStock(idTienda) {
+    mostrarSpinner();
+
+    $.ajax({
+        url: '/Tienda/Stock?idTienda=' + idTienda,
+        type: 'GET',
+        dataType: 'json',
+        success: function (stock) {
+            ocultarSpinner();
+
+            const tbody = $('#tabla-stock tbody');
+            tbody.empty();
+
+            if (stock.length === 0) {
+                tbody.append('<tr><td colspan="5">No hay stock disponible</td></tr>');
+            } else {
+                stock.forEach(item => {
+                    tbody.append(`
+                        <tr>
+                            <td>${item.calzadoId}</td>
+                            <td>${item.talle}</td>
+                            <td>${item.modelo}</td>
+                            <td>${item.marca}</td>
+                            <td>${item.stock}</td>
+                        </tr>
+                    `);
+                });
+            }
+
+            const modalEl = document.getElementById('modalStock-tienda');
+            const bsModal = new bootstrap.Modal(modalEl);
+            bsModal.show();
+        },
+        error: function () {
+            ocultarSpinner();
+            Swal.fire('Error!', 'No se pudo ver el stock', 'error');
+        }
+    });
+}
+
+function verVendedores(idTienda) {
+    mostrarSpinner();
+
+    $.ajax({
+        url: '/Tienda/Vendedores?idTienda=' + idTienda,
+        type: 'GET',
+        dataType: 'json',
+        success: function (vendedores) {
+            ocultarSpinner();
+
+            const ul = $('#lista-vendedores');
+            ul.empty();
+
+            if (vendedores.length === 0) {
+                ul.append('<li class="list-group-item">No hay vendedores asignados</li>');
+            } else {
+                vendedores.forEach(v => {
+                    ul.append(`<li class="list-group-item">${v.nombre}</li>`);
+                });
+            }
+
+            const modalEl = document.getElementById('modalVendedores-tienda');
+            const bsModal = new bootstrap.Modal(modalEl);
+            bsModal.show();
+        },
+        error: function (err) {
+            ocultarSpinner();
+            Swal.fire('Error!', 'No se pudieron ver los vendedores', 'error');
+            console.error(err);
+        }
+    });
+}
+
+
+
 function limpiarAdvertencias() {
-    $('#calzado-precio-obligatorio').hide();
-    $('#calzado-pais-obligatorio').hide();
-    $('#calzado-proveedor-obligatorio').hide();
-    $('#calzado-talle-obligatorio').hide();
-    $('#calzado-modelo-obligatorio').hide();
+    $('#tienda-nombre-obligatorio').hide();
+    $('#tienda-provincia-obligatorio').hide();
+    $('#tienda-direccion-obligatorio').hide();
     $('.form-control').css("border-color", "");
 }
 
 function validar_Submit() {
-    return validar_InputSimple('#calzado-modelo')
-        && validar_InputSimple('#calzado-talle')
-        && validar_InputSimple('#calzado-proveedor')
-        && validar_InputSimple('#calzado-pais')
-        && validar_InputSimple('#calzado-precio');
+    return validar_InputSimple('#tienda-nombre')
+        && validar_InputSimple('#tienda-provincia')
+        && validar_InputSimple('#tienda-direccion')
 }
 
 function validar_InputSimple(idInput) {

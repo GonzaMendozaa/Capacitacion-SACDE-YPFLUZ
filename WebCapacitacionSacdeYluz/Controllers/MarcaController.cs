@@ -4,35 +4,34 @@ using WebCapacitacionSacdeYluz.Data.Models;
 
 namespace WebCapacitacionSacdeYluz.Controllers
 {
-    [Route("Calzados")]
-    public class CalzadosController : Controller
+    [Route("Marca")]
+    public class MarcaController : Controller
     {
-        public readonly ICalzadoService _calzadoService;
-        public CalzadosController(ICalzadoService calzadoService)
+        public readonly IMarcaService _MarcaService;
+        public MarcaController(IMarcaService marcaService)
         {
-            _calzadoService = calzadoService;
+            _MarcaService = marcaService;
         }
-        
+
         [Route("[controller]")]
 
         #region GET
         [HttpGet("Index")]
         public IActionResult Index()
         {
-            var calzados = _calzadoService.GetAllCalzados();
-            return View(calzados);
+            var marca = _MarcaService.GetAllMarcas();
+            return View(marca);
         }
 
         #endregion
 
         #region Post
-        [HttpPost("/Calzados/Create")]
-        public IActionResult Create([FromBody] DwdCalzado calzado)
+        [HttpPost("/Marca/Create")]
+        public IActionResult Create([FromBody] DwdMarca marca)
         {
             try
             {
-                calzado.MarcaId = 1; //hardcodeado para que funcione
-                return Ok(_calzadoService.CrearCalzado(calzado));
+                return Ok(_MarcaService.CrearMarca(marca));
             }
             catch (Exception ex)
             {
@@ -43,13 +42,13 @@ namespace WebCapacitacionSacdeYluz.Controllers
         #endregion
 
         #region Put
-        [HttpPost("/Calzados/Update")]
-        public IActionResult Update([FromBody] DwdCalzado calzado)
+        [HttpPost("/Marca/Update")]
+        public IActionResult Update([FromBody] DwdMarca marca)
         {
             try
             {
-                calzado.MarcaId = 1; //hardcodeado para que funcione
-                return Ok(_calzadoService.UpdateCalzado(calzado));
+
+                return Ok(_MarcaService.UpdateMarca(marca));
             }
             catch (Exception ex)
             {
@@ -61,13 +60,13 @@ namespace WebCapacitacionSacdeYluz.Controllers
         #endregion
 
         #region Delete
-        [HttpPost("/Calzados/Delete")]
-        public IActionResult Delete([FromBody]int idCalzado)
+        [HttpPost("/Marca/Delete")]
+        public IActionResult Delete(int idMarca)
         {
             try
             {
-                _calzadoService.DeleteCalzado(idCalzado);
-                return Ok(idCalzado);
+                _MarcaService.DeleteMarca(idMarca);
+                return Ok(idMarca);
             }
             catch (Exception ex)
             {
@@ -78,3 +77,4 @@ namespace WebCapacitacionSacdeYluz.Controllers
         #endregion
     }
 }
+

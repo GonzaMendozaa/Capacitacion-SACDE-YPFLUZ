@@ -9,29 +9,29 @@ using WebCapacitacionSacdeYluz.Data.Repositories.Interfaces;
 
 namespace WebCapacitacionSacdeYluz.Data.Repositories.Interfaces;
 
-public class TiendaRepository: ITiendaRepository
+public class MarcaRepository : IMarcaRepository
 {
     private readonly WebCapacitacionSacdeLuzDbContext _context;
 
-    public TiendaRepository(WebCapacitacionSacdeLuzDbContext context)
-    {  
-        _context = context; 
+    public MarcaRepository(WebCapacitacionSacdeLuzDbContext context)
+    {
+        _context = context;
     }
 
-    public List<DwdTienda> GetAllTienda()
+    public List<DwdMarca> GetAllMarca()
     {
-        return _context.DwdTienda
+        return _context.DwdMarca
             .ToList();
     }
 
     #region Post
-    public DwdTienda CrearTienda(DwdTienda tienda)
+    public DwdMarca CrearMarca(DwdMarca marca)
     {
         try
         {
-            _context.DwdTienda.Add(tienda);
+            _context.DwdMarca.Add(marca);
             _context.SaveChanges();
-            return tienda;
+            return marca;
         }
         catch (Exception ex)
         {
@@ -39,12 +39,12 @@ public class TiendaRepository: ITiendaRepository
         }
     }
 
-    public void DeleteTienda(int Id)
+    public void DeleteMarca(int Id)
     {
         try
         {
-            var tienda = _context.DwdTienda.Where(x => x.Id == Id).FirstOrDefault();
-            _context.DwdTienda.Remove(tienda);
+            var marca = _context.DwdMarca.Where(x => x.Id == Id).FirstOrDefault();
+            _context.DwdMarca.Remove(marca);
             _context.SaveChanges();
         }
         catch (Exception ex)
@@ -56,13 +56,13 @@ public class TiendaRepository: ITiendaRepository
     #endregion
 
     #region Put
-    public DwdTienda UpdateTienda(DwdTienda tienda)
+    public DwdMarca UpdateMarca(DwdMarca marca)
     {
         try
         {
-            _context.DwdTienda.Update(tienda);
+            _context.DwdMarca.Update(marca);
             _context.SaveChanges();
-            return tienda;
+            return marca;
         }
         catch (Exception ex)
         {
@@ -70,12 +70,13 @@ public class TiendaRepository: ITiendaRepository
         }
     }
 
-    public List<DwdTienda> GetAllTiendas()
+    public List<DwdMarca> GetAllMarcas()
     {
-        return _context.DwdTienda
+        return _context.DwdMarca
                 .ToList();
     }
     #endregion
 }
+
 
 

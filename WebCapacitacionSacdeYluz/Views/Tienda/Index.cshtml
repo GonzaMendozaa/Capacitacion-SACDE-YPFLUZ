@@ -4,9 +4,9 @@
 <link href="~/css/tables-btn/index.css" rel="stylesheet" type="text/css" />
 
 <div class="container mt-4">
-    <h2>Gestor de Tiendas</h2>
+    <h2>Tiendas</h2>
 
-    <button type="button" class="btn btn-success mb-3" id="buttonCreate-Tienda">
+    <button type="button" class="btn btn-success mb-3" id="buttonCreate-tienda">
         Crear Tienda
     </button>
 
@@ -17,6 +17,9 @@
                 <th>Nombre</th>
                 <th>Provincia</th>
                 <th>Direccion</th>
+                <th>Stock</th>
+                <th>Vendedores</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -27,6 +30,18 @@
                     <td>@item.Nombre</td>
                     <td>@item.Provincia</td>
                     <td>@item.Direccion</td>
+                    <td>
+                        <button type="button"
+                                class="btn btn-info btn-sm" 
+                                onclick="verStock(@item.Id)">Stock
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button"
+                                class="btn btn-secondary btn-sm" 
+                                onclick="verVendedores(@item.Id)">Ver
+                        </button>
+                    </td>
                     <td style="white-space: nowrap;">
                         <button type="button"
                                 class="btn btn-danger btn-sm delete"
@@ -40,6 +55,7 @@
                                 style="padding: 2px 6px;">
                             Editar
                         </button>
+
                     </td>
                 </tr>
             }
@@ -48,8 +64,8 @@
 </div>
 
 <!-- Modal Crear/Editar -->
-<form id="form-calzado">
-    <div class="modal fade" id="modalScrollable-calzado" tabindex="-1" role="dialog" aria-hidden="true">
+<form id="form-tienda">
+    <div class="modal fade" id="modalScrollable-tienda" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
@@ -62,19 +78,19 @@
 
                     <div>
                         <label>Nombre</label>
-                        <input id="tienda-nombre" class="form-control mb-2" placeholder="Nombre" />
+                        <input id="tienda-nombre" type="text" class="form-control mb-2" placeholder="Nombre" />
                         <div id="tienda-nombre-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
                     </div>
 
                     <div>
                         <label>Direccion</label>
-                        <input id="tienda-direccion" type="number" class="form-control mb-2" placeholder="Direccion" />
+                        <input id="tienda-direccion" type="text" class="form-control mb-2" placeholder="Direccion" />
                         <div id="tienda-direccion-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
                     </div>
 
                     <div>
                         <label>Provincia</label>
-                        <input id="tienda-provincia" type="number" class="form-control mb-2" placeholder="Provincia" />
+                        <input id="tienda-provincia" type="text" class="form-control mb-2" placeholder="Provincia" />
                         <div id="tienda-provincia-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
                     </div>
 
@@ -90,8 +106,59 @@
     </div><!-- /.modal -->
 </form>
 
+<!-- Modal Stock -->
+<div class="modal fade" id="modalStock-tienda" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Stock de la Tienda</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped" id="tabla-stock">
+                    <thead>
+                        <tr>
+                            <th>IdCalzado</th>
+                            <th>Talle</th>
+                            <th>Modelo</th>
+                            <th>Marca</th>
+                            <th>Stock</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Se completará con JS -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Vendedores -->
+<div class="modal fade" id="modalVendedores-tienda" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Vendedores de la Tienda</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <ul id="lista-vendedores" class="list-group">
+                    <!-- Se completará con JS -->
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @section scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
@@ -111,7 +178,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Datatable init js -->
-    <script src="~/js/pages/Calzado/datatables.init.js"></script>
-    <script src="~/js/pages/Calzado/Index.js"></script>
+    <script src="~/js/pages/Tienda/datatables.init.js"></script>
+    <script src="~/js/pages/Tienda/Index.js"></script>
     <script src="~/libs/select2/select2.min.js"></script>
 }

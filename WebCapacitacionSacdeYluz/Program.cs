@@ -11,9 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ICalzadoRepository, CalzadoRepository>();
 builder.Services.AddScoped<IProveedorRepository, ProveedorRepository>();
+builder.Services.AddScoped<ITiendaRepository, TiendaRepository>();
+builder.Services.AddScoped<IMarcaRepository, MarcaRepository>();
 
 builder.Services.AddScoped<ICalzadoService, CalzadoService>();
 builder.Services.AddScoped<IProveedorService, ProveedorService>();
+builder.Services.AddScoped<ITiendaService, TiendaService>();
+builder.Services.AddScoped<IMarcaService, MarcaService>();
 
 
 
@@ -40,6 +44,17 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+
+app.MapControllerRoute(
+    name: "calzados",
+    pattern: "Calzados/{action=Index}/{id?}",
+    defaults: new { controller = "Calzados" });
+
+app.MapControllerRoute(
+    name: "tienda",
+    pattern: "Tienda/{action=Index}/{id?}",
+    defaults: new { controller = "Tienda" });
 
 app.MapControllerRoute(
     name: "default",

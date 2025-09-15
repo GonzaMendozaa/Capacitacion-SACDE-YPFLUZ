@@ -10,12 +10,12 @@ namespace WebCapacitacionSacdeYluz.Data.Models
     {
         public int Id { get; set; }
        
-        public double Talle { get; set; }
-        public string Modelo {  get; set; }
+        public int Talle { get; set; }
+        public string? Modelo {  get; set; }
         public double Precio { get; set; }
 
         //Relacion Con Marca
-        public DwdMarca Marca { get; set; }
+        public DwdMarca? Marca { get; set; }
         public int MarcaId { get; set; }
 
 

@@ -13,11 +13,11 @@ namespace WebCapacitacionSacdeYluz.Data.Models
         public int cantidad { get; set; }
 
         //Relacion con Compra
-        public DwfCompra Compra { get; set; }
+        public DwfCompra? Compra { get; set; }
         public int CompraId { get; set; }
 
         //Relacion Con Calzado
-        public DwdCalzado Calzado { get; set; }
+        public DwdCalzado? Calzado { get; set; }
         public int CalzadoId { get; set; }
 
     }

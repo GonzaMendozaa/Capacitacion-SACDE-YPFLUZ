@@ -1,23 +1,22 @@
-﻿@model IEnumerable<WebCapacitacionSacdeYluz.Data.Models.DwdCalzado>
+﻿@model IEnumerable<WebCapacitacionSacdeYluz.Data.Models.DwdMarca>
 
 <link href="~/libs/select2/select2.min.css" rel="stylesheet" type="text/css" />
 <link href="~/css/tables-btn/index.css" rel="stylesheet" type="text/css" />
 
 <div class="container mt-4">
-    <h2>Stock de Calzados</h2>
+    <h2>Marcas</h2>
 
-    <button type="button" class="btn btn-success mb-3" id="buttonCreate-calzado">
-        Crear Calzado
+    <button type="button" class="btn btn-success mb-3" id="buttonCreate-marca">
+        Crear Marca
     </button>
 
-    <table id="datatable-calzados" class="table table-striped">
+    <table id="datatable-marca" class="table table-striped">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Modelo</th>
-                <th>Talle</th>
-                <th>Precio</th>
-                <th>Acciones</th>
+                <th>Nombre</th>
+                <th>Pais</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -25,9 +24,8 @@
             {
                 <tr>
                     <td>@item.Id</td>
-                    <td>@item.Modelo</td>
-                    <td>@item.Talle</td>
-                    <td>@item.Precio</td>
+                    <td>@item.Nombre</td>
+                    <td>@item.Pais</td>
                     <td style="white-space: nowrap;">
                         <button type="button"
                                 class="btn btn-danger btn-sm delete"
@@ -49,41 +47,36 @@
 </div>
 
 <!-- Modal Crear/Editar -->
-<form id="form-calzado">
-    <div class="modal fade" id="modalScrollable-calzado" tabindex="-1" role="dialog" aria-hidden="true">
+<form id="form-marca">
+    <div class="modal fade" id="modalScrollable-marca" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalScrollableTitle-calzado"></h5>
+                    <h5 class="modal-title" id="exampleModalScrollableTitle-marca"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
-                    <input type="hidden" readonly id="id-calzado" class="form-control mb-2" />
+                    <input type="hidden" readonly id="id-marca" class="form-control mb-2" />
 
                     <div>
-                        <label>Modelo</label>
-                        <input id="calzado-modelo" class="form-control mb-2" placeholder="Modelo" />
-                        <div id="calzado-modelo-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
+                        <label>Nombre</label>
+                        <input id="marca-nombre" type="text" class="form-control mb-2" placeholder="Nombre" />
+                        <div id="marca-nombre-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
                     </div>
 
                     <div>
-                        <label>Talle</label>
-                        <input id="calzado-talle" type="number" class="form-control mb-2" placeholder="Talle" />
-                        <div id="calzado-talle-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
+                        <label>Pais</label>
+                        <input id="marca-pais" type="text" class="form-control mb-2" placeholder="Pais" />
+                        <div id="marca-pais-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
                     </div>
 
-                    <div>
-                        <label>Precio</label>
-                        <input id="calzado-precio" type="number" step="0.01" class="form-control mb-2" placeholder="Precio" />
-                        <div id="calzado-precio-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
-                    </div>
 
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" id="buttonSave-calzado" class="btn btn-primary">Guardar</button>
+                    <button type="submit" id="buttonSave-marca" class="btn btn-primary">Guardar</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -91,7 +84,6 @@
 </form>
 
 @section scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
@@ -111,7 +103,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Datatable init js -->
-    <script src="~/js/pages/Calzado/datatables.init.js"></script>
-    <script src="~/js/pages/Calzado/Index.js"></script>
+    <script src="~/js/pages/Marca/datatables.init.js"></script>
+    <script src="~/js/pages/Marca/Index.js"></script>
     <script src="~/libs/select2/select2.min.js"></script>
 }

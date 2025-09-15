@@ -14,11 +14,11 @@ namespace WebCapacitacionSacdeYluz.Data.Models
         public double Ganancia { get; set; }
 
         //Relacion con Proveedor
-        public DwdProveedor Proveedor { get; set; }
+        public DwdProveedor? Proveedor { get; set; }
         public int ProveedorId { get; set; }
 
         //Relacion con Tienda
-        public DwdTienda Tienda { get; set; }
+        public DwdTienda? Tienda { get; set; }
         public int TiendaId { get; set; }
     }
 }

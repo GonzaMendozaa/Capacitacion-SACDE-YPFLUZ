@@ -3,13 +3,6 @@ $(document).ready(function () {
     $('#datatable-calzados').DataTable();
 });
 
-function loadMainData() {
-    //cargamos los proveedores
-    $('#datalistProveedor').empty()
-    getProveedores();
-}
-
-loadMainData();
 
 // Abrir modal Crear
 $('#buttonCreate-calzado').click(function () {
@@ -19,7 +12,6 @@ $('#buttonCreate-calzado').click(function () {
     $('#id-calzado').val('');
     $('#calzado-modelo').val('');
     $('#calzado-talle').val('');
-    $('#datalistProveedor-calzado').val('');
     $('#calzado-precio').val('');
     $('.modal-title').text('Crear Calzado');
     $('#modalScrollable-calzado').modal('show');
@@ -35,7 +27,6 @@ $('#form-calzado').submit(function (event) {
             Id: isCreating ? 0 : $('#id-calzado').val(),
             Modelo: $('#calzado-modelo').val(),
             Talle: $('#calzado-talle').val(),
-            ProveedorId: parseInt($('#datalistProveedor-calzado').val()),
             Precio: $('#calzado-precio').val()
         };
 
@@ -59,14 +50,12 @@ $('#datatable-calzados tbody').on('click', '.edit', function (e) {
     var calzado = table.row(element).data();
     var idCalzado = calzado[0];
 
-    var proveedor = proveedorList.find(item => item.descripcion === calzado[3]);
 
     $('#modalScrollable-calzado .modal-title').text("Editar Calzado");
     //se llenan con los datos de la vista anterior
     $('#id-calzado').val(calzado[0]);
     $('#calzado-modelo').val(calzado[1]);
     $('#calzado-talle').val(calzado[2]);
-    $('#datalistProveedor-calzado').val(proveedor?.id ?? "");
     $('#calzado-precio').val(calzado[4]);
 
     $('#modalScrollable-calzado').modal('show');
@@ -74,7 +63,7 @@ $('#datatable-calzados tbody').on('click', '.edit', function (e) {
 
 // eliminar
 $('#datatable-calzados tbody').on('click', '.delete', (e) => {
-    isCreatingCalzado = false;
+    isCreatingCalzado = true;
     var element = e.currentTarget.parentElement.parentElement;
     var table = $('#datatable-calzados').DataTable();
     var calzado = table.row(element).data();
@@ -158,7 +147,6 @@ function createCalzado(calzado) {
                 created.id,
                 created.modelo,
                 created.talle,
-                proveedorList.find((item) => item.id === parseInt(calzado.ProveedorId)).descripcion,
                 created.precio,
                 buttonDelete.prop('outerHTML') + " " + buttonEdit.prop('outerHTML') // ambos botones en la misma celda
             ]).draw(false);
@@ -210,7 +198,6 @@ function updateCalzado(calzado) {
                     updated.id,
                     updated.modelo,
                     updated.talle,
-                    proveedorList.find((item) => item.id === parseInt(calzado.ProveedorId)).descripcion,
                     updated.precio,
                     buttonDelete.prop('outerHTML') + " " + buttonEdit.prop('outerHTML') // ambos botones en la misma celda
                 ]).draw(false);
@@ -231,32 +218,8 @@ function updateCalzado(calzado) {
 
 // Helpers
 
-async function getProveedores() {
-    return $.ajax({
-        type: "GET",
-        url: 'Proveedor/GetAllProveedores',
-        dataType: "json",
-        success: function (data) {
-            proveedorList = data;
-            var datalistProveedor = $('#datalistProveedor-calzado');
-
-            datalistProveedor.append('<option value="" data-value="">Seleccione un Proveedor</option>');
-
-            proveedorList.forEach(el => {
-                var option = `<option value="${el.id}">${el.descripcion}</option>`;
-                $('#datalistProveedor-calzado').append(option);
-            });
-        },
-        error: function (data) {
-            console.log(data)
-        }
-    });
-}
-
 function limpiarAdvertencias() {
     $('#calzado-precio-obligatorio').hide();
-    $('#calzado-pais-obligatorio').hide();
-    $('#calzado-proveedor-obligatorio').hide();
     $('#calzado-talle-obligatorio').hide();
     $('#calzado-modelo-obligatorio').hide();
     $('.form-control').css("border-color", "");
@@ -265,8 +228,6 @@ function limpiarAdvertencias() {
 function validar_Submit() {
     return validar_InputSimple('#calzado-modelo')
         && validar_InputSimple('#calzado-talle')
-        && validar_InputSimple('#calzado-proveedor')
-        && validar_InputSimple('#calzado-pais')
         && validar_InputSimple('#calzado-precio');
 }
 
