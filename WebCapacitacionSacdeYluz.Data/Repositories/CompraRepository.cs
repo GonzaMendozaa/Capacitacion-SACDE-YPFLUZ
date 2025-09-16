@@ -9,29 +9,29 @@ using WebCapacitacionSacdeYluz.Data.Repositories.Interfaces;
 
 namespace WebCapacitacionSacdeYluz.Data.Repositories.Interfaces;
 
-public class MarcaRepository : IMarcaRepository
+public class CompraRepository : ICompraRepository
 {
     private readonly WebCapacitacionSacdeLuzDbContext _context;
 
-    public MarcaRepository(WebCapacitacionSacdeLuzDbContext context)
+    public CompraRepository(WebCapacitacionSacdeLuzDbContext context)
     {
         _context = context;
     }
 
-    public List<DwdMarca> GetAllMarca()
+    public List<DwfCompra> GetAllCompras()
     {
-        return _context.DwdMarca
+        return _context.DwfCompra
             .ToList();
     }
 
     #region Post
-    public DwdMarca CrearMarca(DwdMarca marca)
+    public DwfCompra CrearCompra(DwfCompra compra)
     {
         try
         {
-            _context.DwdMarca.Add(marca);
+            _context.DwfCompra.Add(compra);
             _context.SaveChanges();
-            return marca;
+            return compra;
         }
         catch (Exception ex)
         {
@@ -39,12 +39,12 @@ public class MarcaRepository : IMarcaRepository
         }
     }
 
-    public void DeleteMarca(int Id)
+    public void DeleteCompra(int Id)
     {
         try
         {
-            var marca = _context.DwdMarca.Where(x => x.Id == Id).FirstOrDefault();
-            _context.DwdMarca.Remove(marca);
+            var compra = _context.DwfCompra.Where(x => x.Id == Id).FirstOrDefault();
+            _context.DwfCompra.Remove(compra);
             _context.SaveChanges();
         }
         catch (Exception ex)
@@ -56,28 +56,26 @@ public class MarcaRepository : IMarcaRepository
     #endregion
 
     #region Put
-    public DwdMarca UpdateMarca(DwdMarca marca)
+    public DwfCompra UpdateCompra(DwfCompra compra)
     {
         try
         {
-            _context.DwdMarca.Update(marca);
+            _context.DwfCompra.Update(compra);
             _context.SaveChanges();
-            return marca;
+            return compra;
         }
-        catch
+        catch (Exception ex)
         {
-            throw;
+            throw ex;
         }
     }
 
-    public List<DwdMarca> GetAllMarcas()
+    public List<DwfCompra> GetAllCompra()
     {
-        var marcas = _context.DwdMarca
+        return _context.DwfCompra
                 .ToList();
-        return marcas;
     }
     #endregion
 }
-
 
 

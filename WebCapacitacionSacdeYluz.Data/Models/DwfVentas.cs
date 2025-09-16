@@ -11,6 +11,8 @@ namespace WebCapacitacionSacdeYluz.Data.Models
         public int Id {  get; set; }
         public DateTime FechaPago { get; set; }
 
+        public double TotalVenta { get; set; }
+
         //Relacion Con Vendedor
         public DwdVendedor? Vendedor { get; set; }
         public int VendedorId { get; set; }

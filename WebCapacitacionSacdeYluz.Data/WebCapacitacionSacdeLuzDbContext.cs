@@ -11,6 +11,8 @@ namespace WebCapacitacionSacdeYluz.Data
 {
     public class WebCapacitacionSacdeLuzDbContext : DbContext
     {
+        public readonly object DwdCalzados;
+
         public WebCapacitacionSacdeLuzDbContext() { }
         public WebCapacitacionSacdeLuzDbContext(DbContextOptions<WebCapacitacionSacdeLuzDbContext> options) : base(options)
         {
