@@ -8,9 +8,9 @@ namespace WebCapacitacionSacdeYluz.Data.Models
 {
     public class DwfCompraXCalzado
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
-        public int cantidad { get; set; }
+        public int Cantidad { get; set; }
 
         //Relacion con Compra
         public DwfCompra? Compra { get; set; }

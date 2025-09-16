@@ -1,4 +1,5 @@
 ﻿var isCreating = false;
+
 $(document).ready(function () {
     $('#datatable-tienda').DataTable();
 });
@@ -88,7 +89,7 @@ $('#datatable-tienda tbody').on('click', '.delete', function (e) {
     });
 });
 
-//AJAX crear
+//AJAX create
 function createTienda(tienda) {
     $.ajax({
         type: "POST",
@@ -100,6 +101,23 @@ function createTienda(tienda) {
             ocultarSpinner();
 
             var table = $('#datatable-tienda').DataTable();
+
+            var buttonStock = $("<button>", {
+                type: 'button',
+                class: 'btn btn-info btn-sm stock',   // azul/celeste
+                id: 'stock-' + created.id,
+                style: 'padding: 2px 6px;',
+                text: 'Stock'
+            });
+
+            var buttonVendedor = $("<button>", {
+                type: 'button',
+                class: 'btn btn-secondary btn-sm vendedor',  // gris
+                id: 'vendedor-' + created.id,
+                style: 'padding: 2px 6px;',
+                text: 'Ver'
+            });
+
 
 
             var buttonDelete = $("<button>", {
@@ -123,6 +141,8 @@ function createTienda(tienda) {
                 created.nombre,
                 created.provincia,
                 created.direccion,
+                buttonStock.prop('outerHTML'),
+                buttonVendedor.prop('outerHTML'),
                 buttonDelete.prop('outerHTML') + " " + buttonEdit.prop('outerHTML')
             ]).draw(false);
 
