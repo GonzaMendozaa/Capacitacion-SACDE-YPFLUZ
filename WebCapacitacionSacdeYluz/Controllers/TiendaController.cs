@@ -124,9 +124,23 @@ namespace WebCapacitacionSacdeYluz.Controllers
         }
 
 
-
+        [HttpGet("/Tienda/GetAll")]
+        public ActionResult<List<DwdTienda>> GetAllTiendas()
+        {
+            try
+            {
+                var tiendas = _tiendaService.GetAllTiendas();
+                return Ok(tiendas);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.ToString());
+            }
+        }
 
 
     }
+
+
 }
 

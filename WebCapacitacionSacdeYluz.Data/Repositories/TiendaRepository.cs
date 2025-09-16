@@ -47,9 +47,9 @@ public class TiendaRepository: ITiendaRepository
             _context.DwdTienda.Remove(tienda);
             _context.SaveChanges();
         }
-        catch (Exception ex)
+        catch 
         {
-            throw ex;
+            throw;
         }
     }
 
@@ -66,7 +66,7 @@ public class TiendaRepository: ITiendaRepository
         }
         catch (Exception ex)
         {
-            throw ex;
+            throw new Exception("Erorr al Intentar Actualizar",ex);
         }
     }
 

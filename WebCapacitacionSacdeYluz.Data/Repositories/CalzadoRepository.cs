@@ -65,9 +65,9 @@ namespace WebCapacitacionSacdeYluz.Data.Repositories
                 _context.SaveChanges();
                 return calzado;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
         }
         #endregion

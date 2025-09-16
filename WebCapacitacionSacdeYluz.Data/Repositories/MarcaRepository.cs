@@ -64,9 +64,9 @@ public class MarcaRepository : IMarcaRepository
             _context.SaveChanges();
             return marca;
         }
-        catch (Exception ex)
+        catch
         {
-            throw ex;
+            throw;
         }
     }
 

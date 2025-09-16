@@ -1,0 +1,110 @@
+﻿@model IEnumerable<WebCapacitacionSacdeYluz.Data.Models.DwdVendedor>
+
+<link href="~/libs/select2/select2.min.css" rel="stylesheet" type="text/css" />
+<link href="~/css/tables-btn/index.css" rel="stylesheet" type="text/css" />
+
+<div class="container mt-4">
+    <h2>Vendedores</h2>
+
+    <button type="button" class="btn btn-success mb-3" id="buttonCreate-vendedor">
+        Crear Vendedor
+    </button>
+
+    <table id="datatable-vendedor" class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th class="d-none">TiendaId</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Nombre</td>
+                    <td class="d-none">@item.TiendaId </td>
+                    <td style="white-space: nowrap;">
+                        <button type="button"
+                                class="btn btn-danger btn-sm delete"
+                                id="delete-@item.Id"
+                                style="padding: 2px 6px;">
+                            Eliminar
+                        </button>
+                        <button type="button"
+                                class="btn btn-warning btn-sm edit"
+                                id="edit-@item.Id"
+                                style="padding: 2px 6px;">
+                            Editar
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal Crear/Editar -->
+<div class="modal fade" id="modalVendedor" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <form id="form-vendedor">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Crear Vendedor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" readonly id="id-vendedor" class="form-control mb-2" />
+
+                    <div>
+                        <label>Nombre</label>
+                        <input id="vendedor-nombre" class="form-control mb-2" placeholder="Nombre" />
+                        <div id="vendedor-nombre-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
+                    </div>
+
+                    <div>
+                        <label>Tienda</label>
+                        <select id="vendedor-tienda" class="form-control mb-2">
+                            <option value="0">-- Seleccione una tienda --</option>
+                        </select>
+                        <div id="vendedor-tienda-obligatorio" class="text-danger" style="display: none">Campo obligatorio</div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" id="buttonSave-vendedor" class="btn btn-primary">Guardar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </form>
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+
+    <!-- JS DataTables -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+    <!-- Si usás exportar a Excel/PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Datatable init js -->
+    <script src="~/js/pages/Vendedor/datatables.init.js"></script>
+    <script src="~/js/pages/Vendedor/Index.js"></script>
+    <script src="~/libs/select2/select2.min.js"></script>
+}

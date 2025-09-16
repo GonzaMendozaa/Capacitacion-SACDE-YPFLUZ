@@ -14,7 +14,7 @@ namespace WebCapacitacionSacdeYluz.Data
         public WebCapacitacionSacdeLuzDbContext() { }
         public WebCapacitacionSacdeLuzDbContext(DbContextOptions<WebCapacitacionSacdeLuzDbContext> options) : base(options)
         {
-            
+
         }
 
         public virtual DbSet<DwdMarca> DwdMarca { get; set; }
@@ -39,5 +39,20 @@ namespace WebCapacitacionSacdeYluz.Data
                 base.OnConfiguring(optionsBuilder);
             }
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<DwdVendedor>()
+          .HasOne(x => x.Tienda)
+          .WithMany()
+          .HasForeignKey(x => x.TiendaId)
+          .OnDelete(DeleteBehavior.NoAction);
+
+        }
     }
+
+
+
 }
+
