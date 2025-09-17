@@ -8,8 +8,10 @@ namespace WebCapacitacionSacdeYluz.Data.Models
 {
     public class DwfCompra
     {
-        public int ID { get; set; }
-        public DateTime FechaCompra { get; set; }
+        public int Id { get; set; }
+        public DateTime FechaCompra { get; set; } = DateTime.Now;
+
+        public double TotalCompra { get; set; }
 
         public double Ganancia { get; set; }
 

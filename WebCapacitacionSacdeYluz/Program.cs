@@ -14,11 +14,13 @@ builder.Services.AddScoped<IProveedorRepository, ProveedorRepository>();
 builder.Services.AddScoped<ITiendaRepository, TiendaRepository>();
 builder.Services.AddScoped<IMarcaRepository, MarcaRepository>();
 builder.Services.AddScoped<IVendedorRepository, VendedorRepository>();
+builder.Services.AddScoped<ICompraRepository, CompraRepository>();
 
 builder.Services.AddScoped<ICalzadoService, CalzadoService>();
 builder.Services.AddScoped<IProveedorService, ProveedorService>();
 builder.Services.AddScoped<ITiendaService, TiendaService>();
 builder.Services.AddScoped<IMarcaService, MarcaService>();
+builder.Services.AddScoped<ICompraService, CompraService>();
 builder.Services.AddScoped<IVendedorService, VendedorService>();
 
 

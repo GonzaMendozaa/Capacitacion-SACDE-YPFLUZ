@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebCapacitacionSacdeYluz.Data;
 
@@ -11,9 +12,11 @@ using WebCapacitacionSacdeYluz.Data;
 namespace WebCapacitacionSacdeYluz.Data.Migrations
 {
     [DbContext(typeof(WebCapacitacionSacdeLuzDbContext))]
-    partial class WebCapacitacionSacdeLuzDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250915180628_migration20250915")]
+    partial class migration20250915
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,11 +136,11 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
 
             modelBuilder.Entity("WebCapacitacionSacdeYluz.Data.Models.DwfCompra", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<DateTime>("FechaCompra")
                         .HasColumnType("datetime2");
@@ -151,10 +154,7 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
                     b.Property<int>("TiendaId")
                         .HasColumnType("int");
 
-                    b.Property<double>("TotalCompra")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
                     b.HasIndex("ProveedorId");
 
@@ -165,11 +165,11 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
 
             modelBuilder.Entity("WebCapacitacionSacdeYluz.Data.Models.DwfCompraXCalzado", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<int>("CalzadoId")
                         .HasColumnType("int");
@@ -180,7 +180,7 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
                     b.Property<int>("cantidad")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
                     b.HasIndex("CalzadoId");
 
@@ -225,9 +225,6 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
 
                     b.Property<DateTime>("FechaPago")
                         .HasColumnType("datetime2");
-
-                    b.Property<double>("TotalVenta")
-                        .HasColumnType("float");
 
                     b.Property<int>("VendedorId")
                         .HasColumnType("int");
@@ -281,7 +278,7 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
                     b.HasOne("WebCapacitacionSacdeYluz.Data.Models.DwdTienda", "Tienda")
                         .WithMany()
                         .HasForeignKey("TiendaId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Tienda");

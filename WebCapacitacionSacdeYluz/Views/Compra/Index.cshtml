@@ -1,0 +1,123 @@
+﻿@model IEnumerable<WebCapacitacionSacdeYluz.Data.Models.DwfCompra>
+
+<link href="~/libs/select2/select2.min.css" rel="stylesheet" type="text/css" />
+<link href="~/css/tables-btn/index.css" rel="stylesheet" type="text/css" />
+
+<div class="container mt-4">
+    <h2>Compras</h2>
+
+    <button type="button" class="btn btn-success mb-3" id="buttonCreate-compra">
+        Crear Compra
+    </button>
+
+    <table id="datatable-compra" class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tienda</th>
+                <th>FechaCompra</th>
+                <th>Proveedor</th>
+                <th>TotalCompra</th>
+                <th>Ganancia</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Tienda</td>
+                    <td>@item.FechaCompra</td>
+                    <td>@item.Proveedor</td>
+                    <td>@item.TotalCompra</td>
+                    <td>@item.Ganancia</td>
+                    <td style="white-space: nowrap;">
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal Crear-->
+<form id="form-tienda">
+    <div class="modal fade" id="modalScrollable-compra" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalScrollableTitle-compra"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" readonly id="id-compra" class="form-control mb-2" />
+
+                    <div>
+                        <label>Tienda</label>
+                        <input id="compra-tienda" type="text" class="form-control mb-2" placeholder="Tienda" />
+                        <div id="compra-tienda-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
+                    </div>
+
+                    <div>
+                        <label>FechaCompra</label>
+                        <input id="compra-fechacompra" type="text" class="form-control mb-2" placeholder="FechaCompra" />
+                        <div id="compra-fechacompra-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
+                    </div>
+
+                    <div>
+                        <label>Proveedor</label>
+                        <input id="compra-proveedor" type="text" class="form-control mb-2" placeholder="Proveedor" />
+                        <div id="compra-proveedor-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
+                    </div>
+
+                    <div>
+                        <label>TotalCompra</label>
+                        <input id="compra-totalcompra" type="text" class="form-control mb-2" placeholder="TotalCompra" />
+                        <div id="compra-totalcompra-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
+                    </div>
+
+                    <div>
+                        <label>Ganancia</label>
+                        <input id="compra-ganancia" type="text" class="form-control mb-2" placeholder="Ganancia" />
+                        <div id="compra-ganancia-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" id="buttonSave-compra" class="btn btn-primary">Guardar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</form>
+
+@section scripts {
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+
+    <!-- JS DataTables -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+    <!-- Si usás exportar a Excel/PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Datatable init js -->
+    <script src="~/js/pages/Compra/datatables.init.js"></script>
+    <script src="~/js/pages/Compra/Index.js"></script>
+    <script src="~/libs/select2/select2.min.js"></script>
+}
+
