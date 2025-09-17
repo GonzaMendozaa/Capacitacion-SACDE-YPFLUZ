@@ -1,8 +1,20 @@
 ﻿var isCreating = false;
 
 $(document).ready(function () {
-    $('#datatable-vendedor').DataTable();
+    if (!$.fn.DataTable.isDataTable('#datatable-vendedor')) {
+        table = $('#datatable-vendedor').DataTable({
+            columns: [
+                { title: "Id" },
+                { title: "Nombre" },
+                { title: "TiendaId", visible: false },
+                { title: "Acciones" }
+            ]
+        });
+    } else {
+        table = $('#datatable-vendedor').DataTable();
+    }
 });
+
 
 // Abrir modal Crear
 $('#buttonCreate-vendedor').click(function () {
@@ -10,6 +22,7 @@ $('#buttonCreate-vendedor').click(function () {
     isCreating = true;
     $('#id-vendedor').val('');
     $('#vendedor-nombre').val('');
+
     $('.modal-title').text('Crear Vendedor');
     cargarTiendas();
     $('#modalVendedor').modal('show');
@@ -54,7 +67,7 @@ $('#form-vendedor').submit(function (event) {
 $('#datatable-vendedor tbody').on('click', '.edit', function (e) {
     isCreating = false;
     var element = e.currentTarget.parentElement.parentElement;
-    var table = $('#datatable-vendedor').DataTable();
+    //var table = $('#datatable-vendedor').DataTable();
     var vendedor = table.row(element).data();
     var idvendedor = vendedor[0];
 
@@ -72,7 +85,7 @@ $('#datatable-vendedor tbody').on('click', '.edit', function (e) {
 $('#datatable-vendedor tbody').on('click', '.delete', (e) => {
     isCreating = true;
     var element = e.currentTarget.parentElement.parentElement;
-    var table = $('#datatable-vendedor').DataTable();
+    //var table = $('#datatable-vendedor').DataTable();
     var vendedor = table.row(element).data();
     var idvendedor = vendedor[0];
 
@@ -106,7 +119,7 @@ function createVendedor(vendedor) {
         success: function (created) {
             ocultarSpinner();
 
-            var table = $('#datatable-vendedor').DataTable();
+            //var table = $('#datatable-vendedor').DataTable();
 
 
             var buttonDelete = $("<button>", {
@@ -119,14 +132,15 @@ function createVendedor(vendedor) {
             var buttonEdit = $("<button>", {
                 type: 'button',
                 class: 'btn btn-warning btn-sm edit',
-                id: 'edit-' + created.Id,
+                id: 'edit-' + created.id,
                 style: 'padding: 2px 6px;',
                 text: 'Editar'
             });
 
             table.row.add([
-                created.Id,
-                created.Nombre,
+                created.id,
+                created.nombre,
+                created.tiendaId,
                 buttonDelete.prop('outerHTML') + " " + buttonEdit.prop('outerHTML') // ambos botones en la misma celda
             ]).draw(false);
 
@@ -154,28 +168,29 @@ function updateVendedor(vendedor) {
             var buttonDelete = $("<button>", {
                 type: 'button',
                 class: 'btn btn-danger btn-sm delete',
-                id: 'delete-' + updated.Id,
+                id: 'delete-' + updated.id,
                 style: 'padding: 2px 6px;',
                 text: 'Eliminar'
             });
             var buttonEdit = $("<button>", {
                 type: 'button',
                 class: 'btn btn-warning btn-sm edit',
-                id: 'edit-' + updated.Id,
+                id: 'edit-' + updated.id,
                 style: 'padding: 2px 6px;',
                 text: 'Editar'
             });
 
-            var table = $('#datatable-vendedor').DataTable();
+            //var table = $('#datatable-vendedor').DataTable();
             var row = table.row(function (idx, data, node) {
-                return data[0] == updated.Id;
+                return data[0] == updated.id;
             });
 
             if (row.node()) {
                 // Actualizamos los valores de esa fila
                 row.data([
-                    updated.Id,
-                    updated.Nombre,
+                    updated.id,
+                    updated.nombre,
+                    updated.tiendaId,
                     buttonDelete.prop('outerHTML') + " " + buttonEdit.prop('outerHTML') // ambos botones en la misma celda
                 ]).draw(false);
 
@@ -205,7 +220,7 @@ function eliminarvendedor(id) {
         success: function (resultado) {
             ocultarSpinner();
 
-            var table = $('#datatable-vendedor').DataTable();
+            //var table = $('#datatable-vendedor').DataTable();
 
             table.rows().every(function () {
                 var data = this.data();

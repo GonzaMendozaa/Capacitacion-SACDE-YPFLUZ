@@ -17,6 +17,8 @@ namespace WebCapacitacionSacdeYluz.Data.Models
         public DwdVendedor? Vendedor { get; set; }
         public int VendedorId { get; set; }
 
-       
+        //Relacion con Calzados Vendidos
+        public ICollection<DwfVentasXCalzado> VentasXCalzado { get; set; } = new List<DwfVentasXCalzado>();
+
     }
 }

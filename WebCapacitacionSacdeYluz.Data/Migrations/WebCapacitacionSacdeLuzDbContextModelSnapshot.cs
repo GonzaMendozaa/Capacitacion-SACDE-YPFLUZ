@@ -46,7 +46,7 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
 
                     b.HasIndex("MarcaId");
 
-                    b.ToTable("DwdCalzado");
+                    b.ToTable("DwdCalzado", (string)null);
                 });
 
             modelBuilder.Entity("WebCapacitacionSacdeYluz.Data.Models.DwdMarca", b =>
@@ -65,7 +65,7 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DwdMarca");
+                    b.ToTable("DwdMarca", (string)null);
                 });
 
             modelBuilder.Entity("WebCapacitacionSacdeYluz.Data.Models.DwdProveedor", b =>
@@ -85,7 +85,7 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DwdProveedor");
+                    b.ToTable("DwdProveedor", (string)null);
                 });
 
             modelBuilder.Entity("WebCapacitacionSacdeYluz.Data.Models.DwdTienda", b =>
@@ -107,7 +107,7 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DwdTienda");
+                    b.ToTable("DwdTienda", (string)null);
                 });
 
             modelBuilder.Entity("WebCapacitacionSacdeYluz.Data.Models.DwdVendedor", b =>
@@ -128,16 +128,16 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
 
                     b.HasIndex("TiendaId");
 
-                    b.ToTable("DwdVendedor");
+                    b.ToTable("DwdVendedor", (string)null);
                 });
 
             modelBuilder.Entity("WebCapacitacionSacdeYluz.Data.Models.DwfCompra", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<DateTime>("FechaCompra")
                         .HasColumnType("datetime2");
@@ -151,25 +151,22 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
                     b.Property<int>("TiendaId")
                         .HasColumnType("int");
 
-                    b.Property<double>("TotalCompra")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
                     b.HasIndex("ProveedorId");
 
                     b.HasIndex("TiendaId");
 
-                    b.ToTable("DwfCompra");
+                    b.ToTable("DwfCompra", (string)null);
                 });
 
             modelBuilder.Entity("WebCapacitacionSacdeYluz.Data.Models.DwfCompraXCalzado", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<int>("CalzadoId")
                         .HasColumnType("int");
@@ -180,13 +177,13 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
                     b.Property<int>("cantidad")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
                     b.HasIndex("CalzadoId");
 
                     b.HasIndex("CompraId");
 
-                    b.ToTable("DwfCompraXCalzado");
+                    b.ToTable("DwfCompraXCalzado", (string)null);
                 });
 
             modelBuilder.Entity("WebCapacitacionSacdeYluz.Data.Models.DwfTiendaXCalzado", b =>
@@ -212,7 +209,7 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
 
                     b.HasIndex("TiendaId");
 
-                    b.ToTable("DwfTiendaXCalzado");
+                    b.ToTable("DwfTiendaXCalzado", (string)null);
                 });
 
             modelBuilder.Entity("WebCapacitacionSacdeYluz.Data.Models.DwfVentas", b =>
@@ -226,9 +223,6 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
                     b.Property<DateTime>("FechaPago")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("TotalVenta")
-                        .HasColumnType("float");
-
                     b.Property<int>("VendedorId")
                         .HasColumnType("int");
 
@@ -236,7 +230,7 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
 
                     b.HasIndex("VendedorId");
 
-                    b.ToTable("DwfVentas");
+                    b.ToTable("DwfVentas", (string)null);
                 });
 
             modelBuilder.Entity("WebCapacitacionSacdeYluz.Data.Models.DwfVentasXCalzado", b =>
@@ -262,7 +256,7 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
 
                     b.HasIndex("VentasId");
 
-                    b.ToTable("DwfVentasXCalzados");
+                    b.ToTable("DwfVentasXCalzados", (string)null);
                 });
 
             modelBuilder.Entity("WebCapacitacionSacdeYluz.Data.Models.DwdCalzado", b =>

@@ -1,0 +1,127 @@
+﻿@model IEnumerable<WebCapacitacionSacdeYluz.Data.Models.DwfVentas>
+
+<link href="~/libs/select2/select2.min.css" rel="stylesheet" type="text/css" />
+<link href="~/css/tables-btn/index.css" rel="stylesheet" type="text/css" />
+
+<div class="container mt-4">
+    <h2>Ventas</h2>
+
+    <button type="button" class="btn btn-success mb-3" id="buttonCreate-venta">
+        Realizar Venta
+    </button>
+
+    <table id="datatable-venta" class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tienda</th>
+                <th>FechaVenta</th>
+                <th>Vendedor</th>
+                <th>TotalVenta</th>
+                <th>Cantidad Vendida</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Vendedor.Tienda.Nombre</td>
+                    <td>@item.FechaPago</td>
+                    <td>@item.Vendedor.Nombre</td>
+                    <td>@item.TotalVenta</td>
+                    <td>
+                        @foreach (var detalle in item.VentasXCalzado)
+                            {
+                                @detalle.Calzado.Modelo @: (x @detalle.Cantidad) <br />
+                            }
+                    </td>
+                    <td style="white-space: nowrap;">
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal Crear-->
+<form id="form-tienda">
+    <div class="modal fade" id="modalScrollable-venta" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalScrollableTitle-venta"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" readonly id="id-venta" class="form-control mb-2" />
+
+                    <div>
+                        <label>Tienda</label>
+                        <input id="venta-tienda" type="text" class="form-control mb-2" placeholder="Tienda" />
+                        <div id="venta-tienda-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
+                    </div>
+
+                    <div>
+                        <label>FechaPago</label>
+                        <input id="venta-fechapago" type="text" class="form-control mb-2" placeholder="FechaVenta" />
+                        <div id="venta-fechaventa-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
+                    </div>
+
+                    <div>
+                        <label>Vendedor</label>
+                        <input id="venta-proveedor" type="text" class="form-control mb-2" placeholder="Vendedor" />
+                        <div id="venta-proveedor-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
+                    </div>
+
+                    <div>
+                        <label>TotalVenta</label>
+                        <input id="venta-totalventa" type="text" class="form-control mb-2" placeholder="TotalVenta" />
+                        <div id="venta-totalventa-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
+                    </div>
+
+                    <div>
+                        <label>Cantidad</label>
+                        <input id="venta-cantidad" type="text" class="form-control mb-2" placeholder="Cantidad" />
+                        <div id="venta-cantidad-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" id="buttonSave-venta" class="btn btn-primary">Guardar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</form>
+
+@section scripts {
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+
+    <!-- JS DataTables -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+    <!-- Si usás exportar a Excel/PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Datatable init js -->
+    <script src="~/js/pages/Venta/datatables.init.js"></script>
+    <script src="~/js/pages/Venta/Index.js"></script>
+    <script src="~/libs/select2/select2.min.js"></script>
+}
+
