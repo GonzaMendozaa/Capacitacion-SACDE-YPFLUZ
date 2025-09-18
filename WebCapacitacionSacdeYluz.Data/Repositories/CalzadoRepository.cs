@@ -22,6 +22,7 @@ namespace WebCapacitacionSacdeYluz.Data.Repositories
         {
             return _context.DwdCalzado
                 .Include(m => m.Marca)
+                .Where(c=>c.Activo==false)
                 .ToList();
         }
 
@@ -44,9 +45,12 @@ namespace WebCapacitacionSacdeYluz.Data.Repositories
         {
             try
             {
-                var calzado = _context.DwdCalzado.Where(x => x.Id == Id).FirstOrDefault();
-                _context.DwdCalzado.Remove(calzado);
-                _context.SaveChanges();
+                var calzado = _context.DwdCalzado.Find(Id);
+                if(calzado != null)
+                {
+                    calzado.Activo = true;
+                    _context.SaveChanges();
+                }
             }
             catch (Exception ex)
             {

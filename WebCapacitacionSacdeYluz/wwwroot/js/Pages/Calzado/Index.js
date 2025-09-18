@@ -84,16 +84,16 @@ $('#datatable-calzados tbody').on('click', '.delete', (e) => {
             mostrarSpinner();
             $.ajax({
                 type: "POST",
-                url: 'Calzados/Delete',
+                url: '/Calzados/Delete',
                 data: JSON.stringify(idCalzado),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
-                success: function () {
+                success: function (mensaje) {
                     ocultarSpinner();
 
                     Swal.fire(
                         'Eliminado!',
-                        'La asignacion fue eliminada con éxito!',
+                        'La asignacion fue eliminada con éxito!' + mensaje,
                         'success'
                     )
 
