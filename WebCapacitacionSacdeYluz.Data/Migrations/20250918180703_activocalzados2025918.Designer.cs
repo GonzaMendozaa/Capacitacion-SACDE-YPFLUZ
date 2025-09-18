@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebCapacitacionSacdeYluz.Data;
 
@@ -11,9 +12,11 @@ using WebCapacitacionSacdeYluz.Data;
 namespace WebCapacitacionSacdeYluz.Data.Migrations
 {
     [DbContext(typeof(WebCapacitacionSacdeLuzDbContext))]
-    partial class WebCapacitacionSacdeLuzDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250918180703_activocalzados2025918")]
+    partial class activocalzados2025918
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +52,7 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
 
                     b.HasIndex("MarcaId");
 
-                    b.ToTable("DwdCalzado", (string)null);
+                    b.ToTable("DwdCalzado");
                 });
 
             modelBuilder.Entity("WebCapacitacionSacdeYluz.Data.Models.DwdMarca", b =>
@@ -68,7 +71,7 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DwdMarca", (string)null);
+                    b.ToTable("DwdMarca");
                 });
 
             modelBuilder.Entity("WebCapacitacionSacdeYluz.Data.Models.DwdProveedor", b =>
@@ -88,7 +91,7 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DwdProveedor", (string)null);
+                    b.ToTable("DwdProveedor");
                 });
 
             modelBuilder.Entity("WebCapacitacionSacdeYluz.Data.Models.DwdTienda", b =>
@@ -110,7 +113,7 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DwdTienda", (string)null);
+                    b.ToTable("DwdTienda");
                 });
 
             modelBuilder.Entity("WebCapacitacionSacdeYluz.Data.Models.DwdVendedor", b =>
@@ -131,16 +134,16 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
 
                     b.HasIndex("TiendaId");
 
-                    b.ToTable("DwdVendedor", (string)null);
+                    b.ToTable("DwdVendedor");
                 });
 
             modelBuilder.Entity("WebCapacitacionSacdeYluz.Data.Models.DwfCompra", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("FechaCompra")
                         .HasColumnType("datetime2");
@@ -154,22 +157,25 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
                     b.Property<int>("TiendaId")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.Property<double>("TotalCompra")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("ProveedorId");
 
                     b.HasIndex("TiendaId");
 
-                    b.ToTable("DwfCompra", (string)null);
+                    b.ToTable("DwfCompra");
                 });
 
             modelBuilder.Entity("WebCapacitacionSacdeYluz.Data.Models.DwfCompraXCalzado", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CalzadoId")
                         .HasColumnType("int");
@@ -180,13 +186,13 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
                     b.Property<int>("CompraId")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.HasIndex("CalzadoId");
 
                     b.HasIndex("CompraId");
 
-                    b.ToTable("DwfCompraXCalzado", (string)null);
+                    b.ToTable("DwfCompraXCalzado");
                 });
 
             modelBuilder.Entity("WebCapacitacionSacdeYluz.Data.Models.DwfTiendaXCalzado", b =>
@@ -212,7 +218,7 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
 
                     b.HasIndex("TiendaId");
 
-                    b.ToTable("DwfTiendaXCalzado", (string)null);
+                    b.ToTable("DwfTiendaXCalzado");
                 });
 
             modelBuilder.Entity("WebCapacitacionSacdeYluz.Data.Models.DwfVentas", b =>
@@ -226,6 +232,9 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
                     b.Property<DateTime>("FechaPago")
                         .HasColumnType("datetime2");
 
+                    b.Property<double>("TotalVenta")
+                        .HasColumnType("float");
+
                     b.Property<int>("VendedorId")
                         .HasColumnType("int");
 
@@ -233,7 +242,7 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
 
                     b.HasIndex("VendedorId");
 
-                    b.ToTable("DwfVentas", (string)null);
+                    b.ToTable("DwfVentas");
                 });
 
             modelBuilder.Entity("WebCapacitacionSacdeYluz.Data.Models.DwfVentasXCalzado", b =>
@@ -259,7 +268,7 @@ namespace WebCapacitacionSacdeYluz.Data.Migrations
 
                     b.HasIndex("VentasId");
 
-                    b.ToTable("DwfVentasXCalzados", (string)null);
+                    b.ToTable("DwfVentasXCalzados");
                 });
 
             modelBuilder.Entity("WebCapacitacionSacdeYluz.Data.Models.DwdCalzado", b =>

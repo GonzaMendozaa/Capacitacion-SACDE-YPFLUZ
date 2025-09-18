@@ -18,6 +18,8 @@ namespace WebCapacitacionSacdeYluz.Data.Models
         public DwdMarca? Marca { get; set; }
         public int MarcaId { get; set; }
 
+        //Soft delete
+        public bool Activo { get; set; } = false;
 
     }
 }

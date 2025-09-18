@@ -29,75 +29,112 @@ namespace WebCapacitacionSacdeYluz.Controllers
         }
         #endregion
 
+
+
         #region Post
         [HttpPost("/Compra/Create")]
         public IActionResult Create([FromBody] CrearCompraDTO dto)
         {
-            try
+            if (dto == null || !dto.Calzados.Any())
+                return BadRequest("Debe seleccionar al menos un calzado.");
+
+            // Crear la compra principal
+            var compra = new DwfCompra
             {
-                // Cabecera de la compra
-                var compra = new DwfCompra
+                TiendaId = dto.TiendaId,
+                ProveedorId = dto.ProveedorId,
+                FechaCompra = DateTime.Now
+            };
+
+            double total = 0;
+            var proveedor = _context.DwdProveedor.Find(dto.ProveedorId);
+
+            _context.DwfCompra.Add(compra);
+            _context.SaveChanges(); // para generar el Id de compra
+
+            foreach (var item in dto.Calzados)
+            {
+                var tiendaCalzado = _context.DwfTiendaXCalzado
+           .FirstOrDefault(tc => tc.TiendaId == compra.TiendaId && tc.CalzadoId == item.CalzadoId);
+
+                if (tiendaCalzado == null)
                 {
-                    FechaCompra = DateTime.Now,
-                    ProveedorId = dto.ProveedorId,
-                    TiendaId = dto.TiendaId
+                    tiendaCalzado = new DwfTiendaXCalzado
+                    {
+                        TiendaId = compra.TiendaId,
+                        CalzadoId = item.CalzadoId,
+                        Stock = item.Cantidad
+                    };
+                    _context.DwfTiendaXCalzado.Add(tiendaCalzado);
+                }
+                else
+                {
+                    tiendaCalzado.Stock += item.Cantidad;
+                }
+                //si no funciona borrar lo anterior desde var tiendaCalzado
+                var calzado = _context.DwdCalzado.FirstOrDefault(c => c.Id == item.CalzadoId);
+                if (calzado == null) continue;
+
+                var compraCalzado = new DwfCompraXCalzado
+                {
+                    CompraId = compra.Id,
+                    CalzadoId = calzado.Id,
+                    Cantidad = item.Cantidad
                 };
 
-                double total = 0;
+                total += item.Cantidad * calzado.Precio;
 
-                foreach (var item in dto.Calzados)
-                {
-                    var calzado = _context.DwdCalzado.FirstOrDefault(c => c.Id == item.CalzadoId);
-                    if (calzado == null) return BadRequest($"El calzado {item.CalzadoId} no existe");
-
-                    // sumo al total
-                    total += calzado.Precio * item.Cantidad;
-
-                    // agrego la relación CompraXCalzado
-                    var compraXCalzado = new DwfCompraXCalzado
-                    {
-                        Compra = compra,
-                        CalzadoId = calzado.Id,
-                        Cantidad = item.Cantidad
-                    };
-
-                    _context.DwfCompraXCalzado.Add(compraXCalzado);
-
-                    // sumo al stock de la tienda
-                    var stockTienda = _context.DwfTiendaXCalzado
-                        .FirstOrDefault(x => x.TiendaId == dto.TiendaId && x.CalzadoId == calzado.Id);
-
-                    if (stockTienda != null)
-                        stockTienda.Stock += item.Cantidad;
-                    else
-                        _context.DwfTiendaXCalzado.Add(new DwfTiendaXCalzado
-                        {
-                            TiendaId = dto.TiendaId,
-                            CalzadoId = calzado.Id,
-                            Stock = item.Cantidad
-                        });
-                }
-                // Calcular total y ganancia
-                compra.TotalCompra = total;
-
-                var proveedor = _context.DwdProveedor.First(p => p.Id == dto.ProveedorId);
-                compra.Ganancia = total * (1 + proveedor.Comision / 100);
-
-                _context.DwfCompra.Add(compra);
-                _context.SaveChanges();
-
-                return Ok(compra.Id);
+                _context.DwfCompraXCalzado.Add(compraCalzado);
             }
-            catch (Exception ex)
-            {
-                var error = ex.ToString();
-                return Problem(error);
-            }
+
+            compra.TotalCompra = total;
+            compra.Ganancia = total + (total * proveedor.Comision / 100);
+
+            _context.SaveChanges();
+
+            return Ok(new { mensaje = "Compra registrada con éxito", compraId = compra.Id, total });
         }
-        #endregion
+
+        [HttpGet("proveedores")]
+        public IActionResult GetProveedores()
+        {
+            var proveedores = _context.DwdProveedor
+                .Select(p => new { id = p.Id, descripcion = p.Descripcion })
+                .ToList();
+            return Ok(proveedores);
+        }
+
+
+        [HttpGet("tiendas")]
+        public IActionResult GetTiendas()
+        {
+            var tiendas = _context.DwdTienda
+                .Select(t => new { id = t.Id, nombre = t.Nombre })
+                .ToList();
+            return Ok(tiendas);
+        }
+
+        [HttpGet("calzados")]
+        public IActionResult GetCalzados()
+        {
+            var calzados = _context.DwdCalzado
+                .Select(c => new
+                {
+                    id = c.Id,
+                    modelo = c.Modelo,
+                    talle = c.Talle,
+                    precio = c.Precio
+                })
+                .ToList();
+
+            return Ok(calzados);
+        }
+
+
 
     }
+            
 }
 
 
-        
+#endregion

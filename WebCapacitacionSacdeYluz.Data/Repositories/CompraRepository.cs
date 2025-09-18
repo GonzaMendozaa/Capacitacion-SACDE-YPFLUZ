@@ -21,6 +21,8 @@ public class CompraRepository : ICompraRepository
     public List<DwfCompra> GetAllCompras()
     {
         return _context.DwfCompra
+            .Include (c=>c.Tienda)
+            .Include(c=>c.Proveedor)
             .ToList();
     }
 
@@ -70,11 +72,6 @@ public class CompraRepository : ICompraRepository
         }
     }
 
-    public List<DwfCompra> GetAllCompra()
-    {
-        return _context.DwfCompra
-                .ToList();
-    }
     #endregion
 }
 

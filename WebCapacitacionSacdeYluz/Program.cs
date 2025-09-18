@@ -13,17 +13,19 @@ builder.Services.AddScoped<ICalzadoRepository, CalzadoRepository>();
 builder.Services.AddScoped<IProveedorRepository, ProveedorRepository>();
 builder.Services.AddScoped<ITiendaRepository, TiendaRepository>();
 builder.Services.AddScoped<IMarcaRepository, MarcaRepository>();
+<<<<<<<<< Temporary merge branch 1
+builder.Services.AddScoped<IVendedorRepository, VendedorRepository>();
 builder.Services.AddScoped<IVendedorRepository, VendedorRepository>();
 builder.Services.AddScoped<ICompraRepository, CompraRepository>();
-builder.Services.AddScoped<IVentaRepository, VentaRepository>();
+>>>>>>>>> Temporary merge branch 2
 
 builder.Services.AddScoped<ICalzadoService, CalzadoService>();
 builder.Services.AddScoped<IProveedorService, ProveedorService>();
-builder.Services.AddScoped<ITiendaService, TiendaService>();
+builder.Services.AddScoped<ICompraService, CompraService>();
 builder.Services.AddScoped<IMarcaService, MarcaService>();
 builder.Services.AddScoped<ICompraService, CompraService>();
-builder.Services.AddScoped<IVendedorService, VendedorService>();
-builder.Services.AddScoped<IVentaService, VentaService>();
+builder.Services.AddScoped<ICompraService, CompraService>();
+>>>>>>>>> Temporary merge branch 2
 
 
 
