@@ -1,114 +1,100 @@
 ﻿var isCreating = false;
+var calzadosDisponibles = [];
 
 $(document).ready(function () {
-    $('#datatable-compra').DataTable();
-});
+
+    $("#buttonCreate-compra").click(function () {
+        $("#modalScrollable-compra").modal("show");
+        $("#exampleModalScrollableTitle-compra").text("Nueva compra");
+    });
+
+    // cargar proveedores
+    $.get("/Compra/proveedores", function (data) {
+        $("#compra-proveedor").empty().append(`<option value="0">-- Seleccione un proveedor --</option>`);
+        data.forEach(p => {
+            $("#compra-proveedor").append(`<option value="${p.id}">${p.descripcion}</option>`);
+        });
+    });
 
 
-// Abrir modal Crear
-$('#buttonCreate-compra').click(function () {
-    limpiarAdvertencias();
-    isCreating = true;
-    $('#id-compra').val('');
-    $('#compra-tienda').val('');
-    $('#compra-proveedor').val('');
-    $('#compra-fechacompra').val('');
-    $('#compra-totalcompra').val('');
-    $('#compra-ganancia').val('');
-    $('.modal-title').text('Crear compra');
-    $('#modalScrollable-compra').modal('show');
-});
+    // cargar tiendas
+    $.get("/Compra/tiendas", function (data) {
+        $("#compra-tienda").empty().append(`<option value="0">-- Seleccione una tienda --</option>`);
+        data.forEach(t => {
+            $("#compra-tienda").append(`<option value="${t.id}">${t.nombre}</option>`);
+        });
+    });
 
+    // cargar calzados disponibles
+    $.get("/Compra/calzados", function (data) {
+        calzadosDisponibles = data;
+    });
 
-// Submit Crear
-$('#form-compra').submit(function (event) {
-    event.preventDefault();
-    mostrarSpinner();
+    // agregar un calzado
+    $("#add-calzado").click(function () {
+        let select = `<select class="form-select calzado-select">`;
+        calzadosDisponibles.forEach(c => {
+            select += `<option value="${c.id}">${c.modelo} - Talle ${c.talle} - $${c.precio}</option>`;
+        });
+        select += `</select>`;
 
-    if (validar_Submit()) {
-        var compra = {
-            Id: isCreating ? 0 : $('#id-compra').val(),
-            Tienda: $('#compra-tienda').val(),
-            Proveedor: $('#compra-proveedor').val(),
-            Fechacompra: $('#compra-fechacompra').val(),
-            Totalcompra: $('#compra-totalcompra').val(),
-            Ganancia: $('#compra-ganancia').val()
+        let row = `
+            <div class="calzado-row mb-2 d-flex">
+                ${select}
+                <input type="number" class="form-control cantidad-input ms-2" placeholder="Cantidad" min="1" value="1"/>
+                <button type="button" class="btn btn-danger btn-sm ms-2 remove-calzado">X</button>
+            </div>`;
+        $("#calzado-container").append(row);
+    });
+
+    // eliminar fila de calzado
+    $(document).on("click", ".remove-calzado", function () {
+        $(this).closest(".calzado-row").remove();
+    });
+
+    // guardar compra
+    $("#form-Compra").submit(function (event) {
+        event.preventDefault();
+        mostrarSpinner();
+
+        let compra = {
+            proveedorId: $("#compra-proveedor").val(),
+            tiendaId: $("#compra-tienda").val(),
+            calzados: []
         };
 
-        if (isCreating) {
-            createCompra(compra);
-        } else {
-            updateCompra(compra);
-        }
-    } else {
-        ocultarSpinner();
-        Swal.fire('Error!', 'Los datos ingresados no son válidos', 'error');
-    }
-});
-
-//AJAX create
-function createCompra(compra) {
-    $.ajax({
-        type: "POST",
-        url: '/Compra/Create',
-        data: JSON.stringify(compra),
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        success: function (created) {
-            ocultarSpinner();
-
-            var table = $('#datatable-compra').DataTable();
+        $("#calzado-container .calzado-row").each(function () {
+            compra.calzados.push({
+                calzadoId: $(this).find(".calzado-select").val(),
+                cantidad: parseInt($(this).find(".cantidad-input").val())
             });
+        });
 
-            table.row.add([
-                created.id,
-                created.tienda,
-                created.proveedor,
-                created.fechacompra,
-                created.totalcompra,
-                created.ganancia
-            ]).draw(false);
-
-            Swal.fire('Creado!', 'Compra creada con éxito!', 'success');
-            $('#modalCompra').modal('hide');
-        }
-        error: function () {
+        if (compra.calzados.length === 0) {
             ocultarSpinner();
-            Swal.fire('Error!', 'No se pudo crear', 'error');
+            Swal.fire("Error", "Debe agregar al menos un calzado", "error");
+            return;
         }
-function limpiarAdvertencias() {
-    $('#compra-tienda-obligatorio').hide();
-    $('#compra-proveedor-obligatorio').hide();
-    $('#compra-fechacompra-obligatorio').hide();
-    $('#compra-totalcompra-obligatorio').hide();
-    $('#compra-ganancia-obligatorio').hide();
-    $('.form-control').css("border-color", "");
-}
 
-function validar_Submit() {
-    return validar_InputSimple('#compra-tienda')
-        && validar_InputSimple('#compra-proveedor')
-        && validar_InputSimple('#compra-fechacompra')
-        && validar_InputSimple('#compra-totalcompra')
-        && validar_InputSimple('#compra-ganancia')
-}
-
-function validar_InputSimple(idInput) {
-    if ($(idInput).val() == "") {
-        $(idInput + '-obligatorio').show();
-        $(idInput).css("border-color", "#FF0000");
-        return false;
-    } else {
-        $(idInput + '-obligatorio').hide();
-        $(idInput).css("border-color", "#00ff00");
-        return true;
-    }
-}
-
-function limpiarAdvertencias() {
-    $('.text-danger').hide();
-    $('.form-control').css("border-color", "");
-}
+        $.ajax({
+            type: "POST",
+            url: '/Compra/Create',
+            data: JSON.stringify(compra),
+            contentType: "application/json; charset=utf-8",
+            success: function (res) {
+                ocultarSpinner();
+                Swal.fire("Éxito", "Compra creada con éxito. Total: $" + res.total, "success");
+                $("#form-Compra")[0].reset();
+                $("#calzado-container").empty();
+                $("#modalScrollable-compra").modal("hide");
+            },
+            error: function () {
+                ocultarSpinner();
+                Swal.fire("Error", "No se pudo guardar la compra", "error");
+            }
+        });
+    });
+});
 
 function mostrarSpinner() { $('#cover-spin').show(); }
 function ocultarSpinner() { $('#cover-spin').hide(); }

@@ -7,7 +7,7 @@
     <h2>Compras</h2>
 
     <button type="button" class="btn btn-success mb-3" id="buttonCreate-compra">
-        Crear Compra
+        Registrar Compra
     </button>
 
     <table id="datatable-compra" class="table table-striped">
@@ -27,9 +27,9 @@
             {
                 <tr>
                     <td>@item.Id</td>
-                    <td>@item.Tienda</td>
+                    <td>@item.Tienda.Nombre</td>
                     <td>@item.FechaCompra</td>
-                    <td>@item.Proveedor</td>
+                    <td>@item.Proveedor.Descripcion</td>
                     <td>@item.TotalCompra</td>
                     <td>@item.Ganancia</td>
                     <td style="white-space: nowrap;">
@@ -42,7 +42,7 @@
 </div>
 
 <!-- Modal Crear-->
-<form id="form-tienda">
+<form id="form-Compra">
     <div class="modal fade" id="modalScrollable-compra" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
@@ -56,40 +56,33 @@
 
                     <div>
                         <label>Tienda</label>
-                        <input id="compra-tienda" type="text" class="form-control mb-2" placeholder="Tienda" />
-                        <div id="compra-tienda-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
-                    </div>
-
-                    <div>
-                        <label>FechaCompra</label>
-                        <input id="compra-fechacompra" type="text" class="form-control mb-2" placeholder="FechaCompra" />
-                        <div id="compra-fechacompra-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
+                        <select id="compra-tienda" class="form-control mb-2">
+                            <option value="0">-- Seleccione una tienda --</option>
+                        </select>
+                        <div id="compra-tienda-obligatorio" class="text-danger" style="display: none">Campo obligatorio</div>
                     </div>
 
                     <div>
                         <label>Proveedor</label>
-                        <input id="compra-proveedor" type="text" class="form-control mb-2" placeholder="Proveedor" />
-                        <div id="compra-proveedor-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
+                        <select id="compra-proveedor" class="form-control mb-2">
+                            <option value="0">-- Seleccione un proveedor --</option>
+                        </select>
+                        <div id="compra-proveedor-obligatorio" class="text-danger" style="display: none">Campo obligatorio</div>
                     </div>
 
                     <div>
-                        <label>TotalCompra</label>
-                        <input id="compra-totalcompra" type="text" class="form-control mb-2" placeholder="TotalCompra" />
-                        <div id="compra-totalcompra-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
+                        <label>Calzados</label>
+                        <div id="calzado-container"></div>
+                        <button type="button" id="add-calzado" class="btn btn-secondary mt-2">Agregar calzado</button>
                     </div>
 
-                    <div>
-                        <label>Ganancia</label>
-                        <input id="compra-ganancia" type="text" class="form-control mb-2" placeholder="Ganancia" />
-                        <div id="compra-ganancia-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
-                    </div>
 
 
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" id="buttonSave-compra" class="btn btn-primary">Guardar</button>
+                    <button type="submit" id="buttonSave-compra" class="btn btn-primary">Guardar compra</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
