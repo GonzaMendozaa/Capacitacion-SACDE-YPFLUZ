@@ -57,5 +57,10 @@ namespace WebCapacitacionSacdeYluz.BL.Services
             }
         }
 
+        public List<DwdVendedor> GetVendedoresByTienda(int tiendaId)
+        {
+            return _vendedorRepository.GetVendedoresByTienda(tiendaId);
+        }
+
     }
 }

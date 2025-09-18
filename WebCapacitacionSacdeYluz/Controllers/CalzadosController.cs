@@ -12,7 +12,7 @@ namespace WebCapacitacionSacdeYluz.Controllers
         {
             _calzadoService = calzadoService;
         }
-        
+
         [Route("[controller]")]
 
         #region GET
@@ -62,7 +62,7 @@ namespace WebCapacitacionSacdeYluz.Controllers
 
         #region Delete
         [HttpPost("/Calzados/Delete")]
-        public IActionResult Delete([FromBody]int idCalzado)
+        public IActionResult Delete([FromBody] int idCalzado)
         {
             try
             {
@@ -76,5 +76,24 @@ namespace WebCapacitacionSacdeYluz.Controllers
             }
         }
         #endregion
+
+
+        // GET: /Calzado/GetByTienda/1
+        [HttpGet("GetByTienda/{tiendaId}")]
+        public IActionResult GetByTienda(int tiendaId)
+        {
+            var calzados = _calzadoService.GetCalzadosByTienda(tiendaId)
+                .Select(tx => new
+                {
+                    id = tx.Calzado.Id,
+                    modelo = tx.Calzado.Modelo,
+                    stock = tx.Stock,
+                    precio = tx.Calzado.Precio
+                })
+                .ToList();
+
+            return Ok(calzados);
+        }
     }
 }
+

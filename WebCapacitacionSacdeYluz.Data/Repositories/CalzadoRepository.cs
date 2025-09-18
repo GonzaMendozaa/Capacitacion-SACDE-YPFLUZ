@@ -71,5 +71,15 @@ namespace WebCapacitacionSacdeYluz.Data.Repositories
             }
         }
         #endregion
+
+        public List<DwfTiendaXCalzado> GetCalzadosByTienda(int tiendaId)
+        {
+            return _context.DwfTiendaXCalzado
+                .Include(tx => tx.Calzado)
+                .Where(tx => tx.TiendaId == tiendaId && tx.Stock > 0) 
+                .ToList();
+        }
+
+
     }
 }

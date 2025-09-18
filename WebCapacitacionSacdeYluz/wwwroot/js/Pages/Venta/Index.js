@@ -9,14 +9,71 @@ $(document).ready(function () {
 $('#buttonCreate-venta').click(function () {
     limpiarAdvertencias();
     isCreating = true;
+
+    // reset inputs
     $('#id-venta').val('');
     $('#venta-tienda').val('');
-    $('#venta-proveedor').val('');
-    $('#venta-fechaventa').val('');
-    $('#venta-totalventa').val('');
-    $('#venta-ganancia').val('');
+    $('#venta-fechapago').val('');
+    $('#venta-vendedor').val('');
+    $('#calzados-seleccionados').empty(); // limpiamos lista detalle
+
     $('.modal-title').text('Crear venta');
     $('#modalScrollable-venta').modal('show');
+
+    // cargar tiendas al abrir
+    cargarTiendas();
+});
+
+
+//Cargar vendedores
+$('#venta-tienda').change(function () {
+    var tiendaId = $(this).val();
+
+    if (tiendaId) {
+        $.get('/Vendedor/GetByTienda/' + tiendaId, function (data) {
+            $('#venta-vendedor').empty().append('<option value="">-- Seleccione --</option>');
+            $.each(data, function (i, v) {
+                $('#venta-vendedor').append(`<option value="${v.id}">${v.nombre}</option>`);
+            });
+        });
+    }
+});
+
+$('#buttonAdd-calzado').click(function () {
+    var tiendaId = $('#venta-tienda').val();
+
+    if (!tiendaId) {
+        Swal.fire('Atención', 'Seleccione una tienda primero', 'warning');
+        return;
+    }
+
+    $.get('/Calzados/GetByTienda/' + tiendaId, function (data) {
+        var options = '<option value="">-- Seleccione --</option>';
+        $.each(data, function (i, c) {
+            options += `<option value="${c.id}">${c.modelo} - Stock: ${c.stock} - $${c.precio}</option>`;
+        });
+
+        var row = `
+      <tr>
+        <td>
+          <select class="form-control calzado-id">${options}</select>
+        </td>
+        <td>
+          <input type="number" class="form-control cantidad" value="1" min="1"/>
+        </td>
+        <td>
+          <button type="button" class="btn btn-danger btn-sm remove-calzado">X</button>
+        </td>
+      </tr>
+    `;
+
+        $('#calzados-seleccionados').append(row);
+    });
+});
+
+// eliminar fila de calzado
+$(document).on('click', '.remove-calzado', function () {
+    $(this).closest('tr').remove();
 });
 
 
@@ -26,19 +83,30 @@ $('#form-venta').submit(function (event) {
     mostrarSpinner();
 
     if (validar_Submit()) {
+        // armar lista de calzados
+        var calzados = [];
+        $('#calzados-seleccionados tr').each(function () {
+            var calzadoId = $(this).find('.calzado-id').val();
+            var cantidad = $(this).find('.cantidad').val();
+
+            if (calzadoId && cantidad) {
+                calzados.push({
+                    CalzadoId: parseInt(calzadoId),
+                    Cantidad: parseInt(cantidad)
+                });
+            }
+        });
+
         var venta = {
-            Id: isCreating ? 0 : $('#id-venta').val(),
-            Tienda: $('#venta-tienda').val(),
-            Proveedor: $('#venta-proveedor').val(),
-            Fechaventa: $('#venta-fechaventa').val(),
-            Totalventa: $('#venta-totalventa').val(),
-            Ganancia: $('#venta-ganancia').val()
+            VendedorId: $('#venta-vendedor').val(),
+            FechaPago: $('#venta-fechapago').val(),
+            Calzados: calzados
         };
 
         if (isCreating) {
-            createCompra(venta);
+            createVenta(venta);
         } else {
-            updateCompra(venta);
+            updateVenta(venta);
         }
     } else {
         ocultarSpinner();
@@ -46,11 +114,12 @@ $('#form-venta').submit(function (event) {
     }
 });
 
+
 //AJAX create
-function createCompra(venta) {
+function createVenta(venta) {
     $.ajax({
         type: "POST",
-        url: '/Compra/Create',
+        url: '/Venta/Create',
         data: JSON.stringify(venta),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
@@ -58,39 +127,35 @@ function createCompra(venta) {
             ocultarSpinner();
 
             var table = $('#datatable-venta').DataTable();
-        });
+            table.row.add([
+                created.Id,
+                created.FechaPago,
+                created.Vendedor.Tienda.Nombre,
+                created.Vendedor.nombre,
+                created.TotalVenta,
+                created.VentasXCalzado.map(v => `${v.Calzado.Modelo} x${v.Cantidad}`).join(", ") // según cómo lo devuelvas en el backend
+            ]).draw(false);
 
-    table.row.add([
-        created.id,
-        created.tienda,
-        created.proveedor,
-        created.fechaventa,
-        created.totalventa,
-        created.ganancia
-    ]).draw(false);
-
-    Swal.fire('Creado!', 'Compra creada con éxito!', 'success');
-    $('#modalCompra').modal('hide');
-}
-error: function () {
-    ocultarSpinner();
-    Swal.fire('Error!', 'No se pudo crear', 'error');
+            Swal.fire('Creado!', 'Venta creada con éxito!', 'success');
+            $('#modalScrollable-venta').modal('hide');
+        },
+        error: function () {
+            ocultarSpinner();
+            Swal.fire('Error!', 'No se pudo crear', 'error');
+        }
+    });
 }
 function limpiarAdvertencias() {
-    $('#venta-tienda-obligatorio').hide();
-    $('#venta-proveedor-obligatorio').hide();
-    $('#venta-fechaventa-obligatorio').hide();
-    $('#venta-totalventa-obligatorio').hide();
-    $('#venta-ganancia-obligatorio').hide();
+    $('.text-danger').hide();
     $('.form-control').css("border-color", "");
 }
 
+
 function validar_Submit() {
     return validar_InputSimple('#venta-tienda')
-        && validar_InputSimple('#venta-proveedor')
-        && validar_InputSimple('#venta-fechaventa')
-        && validar_InputSimple('#venta-totalventa')
-        && validar_InputSimple('#venta-ganancia')
+        && validar_InputSimple('#venta-vendedor')
+        && validar_InputSimple('#venta-fechapago')
+
 }
 
 function validar_InputSimple(idInput) {
@@ -109,6 +174,16 @@ function limpiarAdvertencias() {
     $('.text-danger').hide();
     $('.form-control').css("border-color", "");
 }
+
+function cargarTiendas() {
+    $.get('/Tienda/GetAll', function (data) {
+        $('#venta-tienda').empty().append('<option value="">-- Seleccione --</option>');
+        $.each(data, function (i, t) {
+            $('#venta-tienda').append(`<option value="${t.id}">${t.nombre}</option>`);
+        });
+    });
+}
+
 
 function mostrarSpinner() { $('#cover-spin').show(); }
 function ocultarSpinner() { $('#cover-spin').hide(); }

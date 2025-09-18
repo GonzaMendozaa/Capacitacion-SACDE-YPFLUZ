@@ -11,8 +11,6 @@ namespace WebCapacitacionSacdeYluz.Data.Repositories.Interfaces
     {
         List<DwfVentas> GetAllVentas();
         DwfVentas CrearVenta(DwfVentas venta);
-        DwfVentas UpdateVenta(DwfVentas venta);
-        void DeleteVenta(int id);
 
         DwdVendedor? GetVendedorById(int vendedorId);
         DwdCalzado? GetCalzadoById(int calzadoId);

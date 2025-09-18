@@ -33,25 +33,22 @@ namespace WebCapacitacionSacdeYluz.Data.Repositories
         {
             _context.DwfVentas.Add(venta);
             _context.SaveChanges();
-            return venta;
+
+            // Recargar la venta con relaciones necesarias
+            var ventaCreada = _context.DwfVentas
+                .Include(v => v.VentasXCalzado)
+                    .ThenInclude(vc => vc.Calzado)
+                .Include(v => v.Vendedor)
+                    .ThenInclude(ven => ven.Tienda)
+                .FirstOrDefault(v => v.Id == venta.Id);
+
+            return ventaCreada!;
         }
 
-        public DwfVentas UpdateVenta(DwfVentas venta)
-        {
-            _context.DwfVentas.Update(venta);
-            _context.SaveChanges();
-            return venta;
-        }
 
-        public void DeleteVenta(int id)
-        {
-            var venta = _context.DwfVentas.FirstOrDefault(x => x.Id == id);
-            if (venta != null)
-            {
-                _context.DwfVentas.Remove(venta);
-                _context.SaveChanges();
-            }
-        }
+
+
+
 
         // Funciones necesarias para el servicio
         public DwdVendedor? GetVendedorById(int vendedorId)

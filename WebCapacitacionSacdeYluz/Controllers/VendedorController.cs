@@ -85,5 +85,20 @@ namespace WebCapacitacionSacdeYluz.Controllers
 
         #endregion
 
+
+        // GET: /Vendedor/GetByTienda/1
+        [HttpGet("GetByTienda/{tiendaId}")]
+        public IActionResult GetByTienda(int tiendaId)
+        {
+            var vendedores = _vendedorService.GetVendedoresByTienda(tiendaId)
+                .Select(v => new {
+                    id = v.Id,
+                    nombre = v.Nombre + " " 
+                })
+                .ToList();
+
+            return Ok(vendedores);
+        }
+
     }
 }

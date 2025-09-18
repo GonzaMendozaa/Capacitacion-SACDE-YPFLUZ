@@ -13,6 +13,8 @@ namespace WebCapacitacionSacdeYluz.Data.Repositories.Interfaces
         public DwdCalzado CrearCalzado(DwdCalzado calzado);
         public DwdCalzado UpdateCalzado(DwdCalzado calzado);
         public void DeleteCalzado(int Id);
+        List<DwfTiendaXCalzado> GetCalzadosByTienda(int tiendaId);
+        
 
     }
 }

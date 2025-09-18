@@ -79,5 +79,12 @@ namespace WebCapacitacionSacdeYluz.Data.Repositories
             }
         }
         #endregion
+
+        public List<DwdVendedor> GetVendedoresByTienda(int tiendaId)
+        {
+            return _context.DwdVendedor
+                .Where(v => v.TiendaId == tiendaId)
+                .ToList();
+        }
     }
 }

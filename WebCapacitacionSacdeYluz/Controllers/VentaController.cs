@@ -35,8 +35,8 @@ namespace WebCapacitacionSacdeYluz.Controllers
         {
             try
             {
-                var ventaId = _ventaService.CrearVenta(dto);
-                return Ok(ventaId);
+                DwfVentas venta = _ventaService.CrearVenta(dto);
+                return Ok(venta);
             }
             catch (Exception ex)
             {

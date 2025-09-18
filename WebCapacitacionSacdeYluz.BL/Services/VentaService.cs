@@ -28,7 +28,7 @@ namespace WebCapacitacionSacdeYluz.BL.Services
         }
 
 
-        public int CrearVenta(CrearVentaDTO dto)
+        public DwfVentas CrearVenta(CrearVentaDTO dto)
         {
             try
             {
@@ -43,7 +43,8 @@ namespace WebCapacitacionSacdeYluz.BL.Services
                 var venta = new DwfVentas
                 {
                     FechaPago = DateTime.Now,
-                    VendedorId = vendedor.Id
+                    VendedorId = vendedor.Id,
+                    
                 };
 
                 double total = 0;
@@ -70,7 +71,8 @@ namespace WebCapacitacionSacdeYluz.BL.Services
                         Cantidad = item.Cantidad
                     };
 
-                    _ventaRepository.AddVentaXCalzado(ventaXCalzado);
+                    venta.VentasXCalzado.Add(ventaXCalzado);
+                    //_ventaRepository.AddVentaXCalzado(ventaXCalzado);
 
                     total += calzado.Precio * item.Cantidad;
                 }
@@ -80,7 +82,7 @@ namespace WebCapacitacionSacdeYluz.BL.Services
                 _ventaRepository.CrearVenta(venta);
                 _ventaRepository.SaveChanges();
 
-                return venta.Id;
+                return venta;
             }
             catch
             {
@@ -88,29 +90,7 @@ namespace WebCapacitacionSacdeYluz.BL.Services
             }
         }
 
-        public DwfVentas UpdateVenta(DwfVentas Venta)
-        {
-            try
-            {
-                return _ventaRepository.UpdateVenta(Venta);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
-
-        public void DeleteVenta(int id)
-        {
-            try
-            {
-                _ventaRepository.DeleteVenta(id);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
+       
     }
 
 }

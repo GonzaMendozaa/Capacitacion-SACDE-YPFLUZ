@@ -7,7 +7,7 @@
     <h2>Ventas</h2>
 
     <button type="button" class="btn btn-success mb-3" id="buttonCreate-venta">
-        Realizar Venta
+        Registrar Venta
     </button>
 
     <table id="datatable-venta" class="table table-striped">
@@ -18,7 +18,8 @@
                 <th>FechaVenta</th>
                 <th>Vendedor</th>
                 <th>TotalVenta</th>
-                <th>Cantidad Vendida</th>
+                <th>Modelo</th>
+                <th>Cantidad</th>
                 <th></th>
             </tr>
         </thead>
@@ -34,7 +35,13 @@
                     <td>
                         @foreach (var detalle in item.VentasXCalzado)
                             {
-                                @detalle.Calzado.Modelo @: (x @detalle.Cantidad) <br />
+                                @detalle.Calzado.Modelo <br />
+                            }
+                    </td>
+                    <td>
+                        @foreach (var detalle in item.VentasXCalzado)
+                            {
+                                @detalle.Cantidad <br />
                             }
                     </td>
                     <td style="white-space: nowrap;">
@@ -46,7 +53,7 @@
 </div>
 
 <!-- Modal Crear-->
-<form id="form-tienda">
+<form id="form-venta">
     <div class="modal fade" id="modalScrollable-venta" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
@@ -58,36 +65,36 @@
                 <div class="modal-body">
                     <input type="hidden" readonly id="id-venta" class="form-control mb-2" />
 
-                    <div>
-                        <label>Tienda</label>
-                        <input id="venta-tienda" type="text" class="form-control mb-2" placeholder="Tienda" />
-                        <div id="venta-tienda-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
+                    <div class="form-group">
+                        <label for="venta-tienda">Tienda</label>
+                        <select id="venta-tienda" class="form-control"></select>
+                        <span id="venta-tienda-obligatorio" class="text-danger" style="display:none;">Obligatorio</span>
                     </div>
 
-                    <div>
-                        <label>FechaPago</label>
-                        <input id="venta-fechapago" type="text" class="form-control mb-2" placeholder="FechaVenta" />
-                        <div id="venta-fechaventa-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
+                    <div class="form-group">
+                        <label for="venta-vendedor">Vendedor</label>
+                        <select id="venta-vendedor" class="form-control"></select>
+                        <span id="venta-vendedor-obligatorio" class="text-danger" style="display:none;">Obligatorio</span>
                     </div>
 
-                    <div>
-                        <label>Vendedor</label>
-                        <input id="venta-proveedor" type="text" class="form-control mb-2" placeholder="Vendedor" />
-                        <div id="venta-proveedor-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
-                    </div>
 
-                    <div>
-                        <label>TotalVenta</label>
-                        <input id="venta-totalventa" type="text" class="form-control mb-2" placeholder="TotalVenta" />
-                        <div id="venta-totalventa-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
-                    </div>
 
-                    <div>
-                        <label>Cantidad</label>
-                        <input id="venta-cantidad" type="text" class="form-control mb-2" placeholder="Cantidad" />
-                        <div id="venta-cantidad-obligatorio" class="text-danger" style="display: none">Campo Obligatorio</div>
-                    </div>
-
+                   <div id="detalle-venta">
+                    <h6>Detalle de calzados</h6>
+                    <button type="button" id="buttonAdd-calzado" class="btn btn-primary mb-2">Agregar calzado</button>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                              <th>Modelo</th>
+                              <th>Cantidad</th>
+                              <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="calzados-seleccionados">
+                        <tr><td colspan="3" class="text-center">No hay calzados seleccionados</td></tr>
+                        </tbody>
+                        </table>
+                       </div>
 
                 </div>
 

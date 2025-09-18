@@ -57,5 +57,10 @@ namespace WebCapacitacionSacdeYluz.BL.Services
             }
         }
 
+        public List<DwfTiendaXCalzado> GetCalzadosByTienda(int tiendaId)
+        {
+            return _calzadoRepository.GetCalzadosByTienda(tiendaId);
+        }
+
     }
 }

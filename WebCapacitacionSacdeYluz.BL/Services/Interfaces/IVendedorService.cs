@@ -14,5 +14,6 @@ namespace WebCapacitacionSacdeYluz.BL.Services.Interfaces
         public DwdVendedor UpdateVendedor(DwdVendedor vendedor);
         public void DeleteVendedor(int Id);
 
+        public List<DwdVendedor> GetVendedoresByTienda(int tiendaId);
     }
 }
