@@ -123,10 +123,8 @@ namespace WebCapacitacionSacdeYluz.Controllers
                     id = c.Id,
                     modelo = c.Modelo,
                     talle = c.Talle,
-                    precio = c.Precio,
-                    activo = c.Activo
+                    precio = c.Precio
                 })
-                .Where(c => c.activo == false)
                 .ToList();
 
             return Ok(calzados);

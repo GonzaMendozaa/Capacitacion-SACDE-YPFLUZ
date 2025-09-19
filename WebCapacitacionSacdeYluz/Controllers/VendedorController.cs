@@ -75,7 +75,7 @@ namespace WebCapacitacionSacdeYluz.Controllers
             try
             {
                 _vendedorService.DeleteVendedor(id);
-                return Ok(id);
+                return Ok();
             }
             catch (Exception ex)
             {

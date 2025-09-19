@@ -36,7 +36,29 @@ namespace WebCapacitacionSacdeYluz.BL.Services
             }
         }
 
+        public DwfCompra UpdateCompra(DwfCompra compra)
+        {
+            try
+            {
+                return _compraRepository.UpdateCompra(compra);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
 
+        public void DeleteCompra(int id)
+        {
+            try
+            {
+                _compraRepository.DeleteCompra(id);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 
 }
