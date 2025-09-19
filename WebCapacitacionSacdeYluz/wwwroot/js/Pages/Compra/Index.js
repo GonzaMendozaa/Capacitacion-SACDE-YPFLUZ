@@ -87,6 +87,9 @@ $(document).ready(function () {
                 $("#form-Compra")[0].reset();
                 $("#calzado-container").empty();
                 $("#modalScrollable-compra").modal("hide");
+
+       
+                location.reload();  
             },
             error: function () {
                 ocultarSpinner();

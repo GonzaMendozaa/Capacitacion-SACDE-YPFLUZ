@@ -11,8 +11,6 @@ namespace WebCapacitacionSacdeYluz.BL.Services.Interfaces
     {
         public List<DwfCompra> GetAllCompras();
         public DwfCompra CrearCompra(DwfCompra compra);
-        public DwfCompra UpdateCompra(DwfCompra compra);
-        public void DeleteCompra(int Id);
 
     }
 }

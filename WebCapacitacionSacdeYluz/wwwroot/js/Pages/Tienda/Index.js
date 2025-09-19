@@ -147,6 +147,7 @@ function createTienda(tienda) {
             ]).draw(false);
 
             Swal.fire('Creado!', 'Tienda creada con éxito!', 'success');
+            //location.reload();  
             $('#modalTienda').modal('hide');
         },
         error: function () {
@@ -196,7 +197,6 @@ function eliminarTienda(id) {
     $.ajax({
         type: "POST",
         url: '/Tienda/Delete?idTienda=' + id, //antes pasaba aca que al poner solo /Tienda/Delete tiraba error NOTION
-        data: JSON.stringify(id),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (resultado) {
@@ -331,3 +331,33 @@ function limpiarAdvertencias() {
 
 function mostrarSpinner() { $('#cover-spin').show(); }
 function ocultarSpinner() { $('#cover-spin').hide(); }
+
+// Ver stock
+$('#datatable-tienda tbody').on('click', '.stock', function (e) {
+    var table = $('#datatable-tienda').DataTable();
+    var $tr = $(this).closest('tr');
+    var tienda = table.row($tr).data();
+
+    if (!tienda) {
+        console.error("Fila no encontrada");
+        return;
+    }
+
+    var idTienda = tienda[0]; // la primera columna es el ID
+    verStock(idTienda);
+});
+
+// Ver vendedores
+$('#datatable-tienda tbody').on('click', '.vendedor', function (e) {
+    var table = $('#datatable-tienda').DataTable();
+    var $tr = $(this).closest('tr');
+    var tienda = table.row($tr).data();
+
+    if (!tienda) {
+        console.error("Fila no encontrada");
+        return;
+    }
+
+    var idTienda = tienda[0];
+    verVendedores(idTienda);
+});

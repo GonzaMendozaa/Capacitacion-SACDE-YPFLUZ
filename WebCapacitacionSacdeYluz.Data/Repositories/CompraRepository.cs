@@ -41,37 +41,6 @@ public class CompraRepository : ICompraRepository
         }
     }
 
-    public void DeleteCompra(int Id)
-    {
-        try
-        {
-            var compra = _context.DwfCompra.Where(x => x.Id == Id).FirstOrDefault();
-            _context.DwfCompra.Remove(compra);
-            _context.SaveChanges();
-        }
-        catch (Exception ex)
-        {
-            throw ex;
-        }
-    }
-
-    #endregion
-
-    #region Put
-    public DwfCompra UpdateCompra(DwfCompra compra)
-    {
-        try
-        {
-            _context.DwfCompra.Update(compra);
-            _context.SaveChanges();
-            return compra;
-        }
-        catch (Exception ex)
-        {
-            throw ex;
-        }
-    }
-
     #endregion
 }
 
