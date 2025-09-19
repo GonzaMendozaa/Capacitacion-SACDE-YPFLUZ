@@ -101,7 +101,7 @@ $('#datatable-vendedor tbody').on('click', '.delete', (e) => {
 
     }).then((result) => {
         if (result.isConfirmed) {
-            eliminarvendedor(idvendedor);
+            eliminarVendedor(idvendedor);
         }
 
     });
@@ -119,7 +119,6 @@ function createVendedor(vendedor) {
         success: function (created) {
             ocultarSpinner();
 
-            //var table = $('#datatable-vendedor').DataTable();
 
 
             var buttonDelete = $("<button>", {
@@ -146,6 +145,7 @@ function createVendedor(vendedor) {
 
             Swal.fire('Creado!', 'vendedor creado con éxito!', 'success');
             $('#modalVendedor').modal('hide');
+            location.reload();  
         },
         error: function () {
             ocultarSpinner();
@@ -208,19 +208,19 @@ function updateVendedor(vendedor) {
     });
 }
 
-function eliminarvendedor(id) {
+function eliminarVendedor(id) {
     mostrarSpinner();
 
     $.ajax({
         type: "POST",
-        url: '/Vendedor/Delete?idvendedor=' + id, //antes pasaba aca que al poner solo /Tienda/Delete tiraba error NOTION
+        url: '/Vendedor/Delete',
         data: JSON.stringify(id),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (resultado) {
             ocultarSpinner();
 
-            //var table = $('#datatable-vendedor').DataTable();
+            var table = $('#datatable-vendedor').DataTable();
 
             table.rows().every(function () {
                 var data = this.data();
@@ -241,7 +241,7 @@ function eliminarvendedor(id) {
         }
     });
 }
-// Helpers
+
 
 function cargarTiendas(selectedId) {
     $.ajax({

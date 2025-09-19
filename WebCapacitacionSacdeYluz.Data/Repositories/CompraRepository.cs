@@ -41,6 +41,8 @@ public class CompraRepository : ICompraRepository
         }
     }
 
+
+
     public void DeleteCompra(int Id)
     {
         try

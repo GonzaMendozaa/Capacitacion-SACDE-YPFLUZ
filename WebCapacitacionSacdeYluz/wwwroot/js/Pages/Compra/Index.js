@@ -70,6 +70,30 @@ $(document).ready(function () {
             });
         });
 
+    // eliminar fila de calzado
+    $(document).on("click", ".remove-calzado", function () {
+        $(this).closest(".calzado-row").remove();
+    });
+
+    // guardar compra
+    $("#form-Compra").submit(function (event) {
+        event.preventDefault();
+        mostrarSpinner();
+
+        let compra = {
+            proveedorId: $("#compra-proveedor").val(),
+            tiendaId: $("#compra-tienda").val(),
+            calzados: []
+        };
+
+        $("#calzado-container .calzado-row").each(function () {
+            compra.calzados.push({
+                calzadoId: $(this).find(".calzado-select").val(),
+                cantidad: parseInt($(this).find(".cantidad-input").val())
+            });
+        });
+
+
         if (compra.calzados.length === 0) {
             ocultarSpinner();
             Swal.fire("Error", "Debe agregar al menos un calzado", "error");
@@ -87,6 +111,11 @@ $(document).ready(function () {
                 $("#form-Compra")[0].reset();
                 $("#calzado-container").empty();
                 $("#modalScrollable-compra").modal("hide");
+
+
+       
+                location.reload();  
+
             },
             error: function () {
                 ocultarSpinner();
