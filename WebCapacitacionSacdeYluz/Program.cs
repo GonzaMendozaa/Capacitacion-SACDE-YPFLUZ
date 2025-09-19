@@ -19,11 +19,12 @@ builder.Services.AddScoped<ICompraRepository, CompraRepository>();
 
 builder.Services.AddScoped<ICalzadoService, CalzadoService>();
 builder.Services.AddScoped<IProveedorService, ProveedorService>();
-builder.Services.AddScoped<ITiendaService, TiendaService>();
+builder.Services.AddScoped<ICompraService, CompraService>();
 builder.Services.AddScoped<IMarcaService, MarcaService>();
 builder.Services.AddScoped<IVendedorService, VendedorService>();
 builder.Services.AddScoped<IVentaService, VentaService>();
 builder.Services.AddScoped<ICompraService, CompraService>();
+
 
 
 
