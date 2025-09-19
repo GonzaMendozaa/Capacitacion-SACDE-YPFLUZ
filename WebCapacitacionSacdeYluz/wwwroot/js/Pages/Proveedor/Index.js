@@ -6,6 +6,7 @@ $(document).ready(function () {
 $('#buttonCreate-proveedor').click(function () {
     limpiarAdvertencias();
     isCreating = true;
+    //holagonza
     $('#id-proveedor').val('');
     $('#proveedor-descripcion').val('');
     $('#proveedor-comision').val('');
